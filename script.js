@@ -1,14 +1,14 @@
 /* ============================================
-   VictorFit v2.0 — Ultra Premium App Logic
+   VictorFit v3.0 — Ultra Premium Logic
    ============================================ */
 
-// ============= STORAGE =============
-const KEY = 'vfit2';
+const KEY = 'vfit3';
 const defaults = {
   water: 0, foods: [], calGoal: 2200, logs: [], weights: [],
   streak: 1, totalW: 0, totalC: 0, totalM: 0, bestStreak: 1,
   weekGoal: 5, targetWt: 75, lastDate: new Date().toDateString(),
-  wCals: [320,480,0,560,410,0,0], wMins: [45,60,0,55,40,0,0]
+  wCals: [320,480,0,560,410,0,0], wMins: [45,60,0,55,40,0,0],
+  isPro: false
 };
 
 function load() {
@@ -134,49 +134,40 @@ const EX = [
     how:'1. Start in push-up position.\n2. Drive one knee toward chest.\n3. Quickly switch legs.\n4. Keep hips low and core tight.' },
 ];
 
-// ============= ACHIEVEMENTS =============
 const ACHS = [
   { id:'w1', icon:'🥇', name:'First Step', desc:'Complete 1 workout', thr:1, type:'w' },
   { id:'w5', icon:'🔥', name:'On Fire', desc:'Complete 5 workouts', thr:5, type:'w' },
   { id:'w10', icon:'💪', name:'Dedicated', desc:'Complete 10 workouts', thr:10, type:'w' },
   { id:'w25', icon:'🏆', name:'Champion', desc:'Complete 25 workouts', thr:25, type:'w' },
-  { id:'w50', icon:'👑', name:'Fitness King', desc:'Complete 50 workouts', thr:50, type:'w' },
   { id:'h8', icon:'💧', name:'Hydrated', desc:'Drink 8 glasses', thr:8, type:'h' },
   { id:'s3', icon:'⚡', name:'3-Day Streak', desc:'3-day streak', thr:3, type:'s' },
   { id:'s7', icon:'🌟', name:'Week Warrior', desc:'7-day streak', thr:7, type:'s' },
-  { id:'s30', icon:'🎖️', name:'Monthly Master', desc:'30-day streak', thr:30, type:'s' },
   { id:'c1k', icon:'🔥', name:'Calorie Crusher', desc:'Burn 1000+ cal', thr:1000, type:'c' },
-  { id:'c5k', icon:'💥', name:'Inferno', desc:'Burn 5000+ cal', thr:5000, type:'c' },
   { id:'wl5', icon:'📊', name:'Tracker', desc:'Log weight 5 times', thr:5, type:'wl' },
 ];
 
-// ============= QUOTES =============
 const QUOTES = [
   '"The only bad workout is the one that didn\'t happen."',
   '"Discipline is choosing between what you want now and what you want most."',
   '"Your body can stand almost anything. It\'s your mind you have to convince."',
   '"The pain you feel today will be the strength you feel tomorrow."',
   '"Don\'t count the days, make the days count." — Muhammad Ali',
-  '"Success isn\'t always about greatness. It\'s about consistency."',
   '"Sweat is fat crying." — Keep pushing!',
-  '"The only way to do great work is to love what you do."',
   '"Wake up. Work out. Look hot. Kick ass."',
   '"Strive for progress, not perfection."',
 ];
 
-// ============= STATE =============
-let curSection = 'dashboard';
-let curEx = null;
+let curSection = 'dashboard', curEx = null;
 let timerInt = null, timerSec = 0, timerOn = false, laps = [];
+let currentUpiAmount = '', currentUpiPlan = '';
+const UPI_ID = 'arasu9629hf@okhdfcbank';
 
-// ============= NAVIGATION =============
 function nav(section) {
   curSection = section;
   document.querySelectorAll('.app-section').forEach(s => s.classList.remove('active'));
   const el = document.getElementById('sec-' + section);
-  if (el) el.classList.add('active');
+  if(el) el.classList.add('active');
 
-  // Update nav links
   document.querySelectorAll('.nav-links li a, .bottom-bar li a').forEach(a => {
     a.classList.toggle('active', a.dataset.section === section);
   });
@@ -193,7 +184,6 @@ function toggleMenu() {
   document.getElementById('hamburger').classList.toggle('open');
 }
 
-// ============= INIT =============
 document.addEventListener('DOMContentLoaded', () => {
   initGreeting();
   initWater();
@@ -210,7 +200,6 @@ document.addEventListener('DOMContentLoaded', () => {
   checkStreak();
   initScrollHeader();
   initRevealAnimations();
-
   document.getElementById('wDate').valueAsDate = new Date();
   setTimeout(() => updateRing(), 500);
 });
@@ -222,7 +211,6 @@ function refreshSection(s) {
   if (s === 'tools') updateCalSummary();
 }
 
-// ============= SCROLL EFFECTS =============
 function initScrollHeader() {
   const header = document.getElementById('appHeader');
   window.addEventListener('scroll', () => {
@@ -233,29 +221,20 @@ function initScrollHeader() {
 function initRevealAnimations() {
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        obs.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
     });
   }, { threshold: 0.1 });
-
   document.querySelectorAll('.reveal:not(.visible)').forEach(el => obs.observe(el));
 }
 
-// ============= GREETING =============
 function initGreeting() {
   const h = new Date().getHours();
   document.getElementById('greetTime').textContent = h < 12 ? 'Morning' : h < 17 ? 'Afternoon' : 'Evening';
-
-  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('heroDate').textContent = '📅 ' + new Date().toLocaleDateString('en-US', opts);
-
+  document.getElementById('heroDate').textContent = '📅 ' + new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   document.getElementById('heroQuote').textContent = QUOTES[Math.floor(Math.random() * QUOTES.length)];
   document.getElementById('streakBadge').textContent = D.streak;
 }
 
-// ============= DASHBOARD =============
 function refreshDash() {
   const eaten = D.foods.reduce((s, f) => s + f.cal, 0);
   document.getElementById('dCalories').textContent = eaten.toLocaleString();
@@ -271,19 +250,15 @@ function renderToday() {
   const items = EX.filter(e => e.cat === todayCat).slice(0, 4);
 
   if (!items.length) {
-    el.innerHTML = '<p style="padding:20px;color:var(--text-400);text-align:center;">Rest day! Take it easy 😴</p>';
+    el.innerHTML = '<p style="padding:20px;color:var(--t4);text-align:center;">Rest day! Take it easy 😴</p>';
     return;
   }
-
   el.innerHTML = items.map(ex => {
     const done = D.logs.some(l => l.id === ex.id && l.date === new Date().toDateString());
-    return `<div class="workout-list-item" onclick="openEx(${ex.id})">
-      <div class="wl-icon ${ex.cat}">${ex.emoji}</div>
-      <div class="wl-info">
-        <h4>${ex.name}</h4>
-        <span>${ex.sets} sets × ${ex.reps}</span>
-      </div>
-      <span class="wl-badge ${done ? 'done' : 'pending'}">${done ? '✓ Done' : 'Pending'}</span>
+    return `<div class="wl-item" onclick="openEx(${ex.id})">
+      <div class="wl-icon wi-${ex.cat}">${ex.emoji}</div>
+      <div class="wl-info"><h4>${ex.name}</h4><span>${ex.sets} sets × ${ex.reps}</span></div>
+      <span class="wl-badge ${done ? 'wb-done' : 'wb-pending'}">${done ? '✓ Done' : 'Pending'}</span>
     </div>`;
   }).join('');
 }
@@ -297,25 +272,21 @@ function updateRing() {
   document.getElementById('ringPct').textContent = pct + '%';
 }
 
-// ============= EXERCISES =============
 function renderEx(cat) {
   const grid = document.getElementById('exGrid');
   const list = cat === 'all' ? EX : EX.filter(e => e.cat === cat);
-
   grid.innerHTML = list.map(ex => `
     <div class="ex-card" onclick="openEx(${ex.id})">
-      <span class="difficulty-tag diff-${ex.diff}">${ex.diff}</span>
+      <span class="diff-tag d-${ex.diff.substring(0,3)}">${ex.diff}</span>
       <span class="ex-emoji">${ex.emoji}</span>
-      <h3>${ex.name}</h3>
-      <p class="ex-desc">${ex.desc}</p>
+      <h3>${ex.name}</h3><p class="ex-desc">${ex.desc}</p>
       <div class="ex-meta">
-        <div class="ex-meta-item">📋 ${ex.sets}×${ex.reps}</div>
-        <div class="ex-meta-item">🔥 ${ex.cals} cal</div>
-        <div class="ex-meta-item">💪 ${ex.muscles.split(',')[0]}</div>
+        <div class="ex-mi">📋 ${ex.sets}×${ex.reps}</div>
+        <div class="ex-mi">🔥 ${ex.cals} cal</div>
+        <div class="ex-mi">💪 ${ex.muscles.split(',')[0]}</div>
       </div>
     </div>
   `).join('');
-
   initRevealAnimations();
 }
 
@@ -324,7 +295,6 @@ function filterEx(cat) {
   renderEx(cat);
 }
 
-// ============= EXERCISE MODAL =============
 function openEx(id) {
   curEx = EX.find(e => e.id === id);
   if (!curEx) return;
@@ -334,64 +304,102 @@ function openEx(id) {
   document.getElementById('emSets').textContent = curEx.sets;
   document.getElementById('emReps').textContent = curEx.reps;
   document.getElementById('emCals').textContent = curEx.cals;
-  document.getElementById('emHow').innerHTML = '<strong style="color:var(--text-100)">How to perform:</strong><br>' + curEx.how.split('\n').join('<br>');
+  document.getElementById('emHow').innerHTML = '<strong style="color:var(--t1)">How to perform:</strong><br>' + curEx.how.replace(/\n/g, '<br>');
 
   const done = D.logs.some(l => l.id === id && l.date === new Date().toDateString());
   const btn = document.getElementById('emLogBtn');
   btn.textContent = done ? '✅ Already Logged Today' : '✅ Log This Workout';
   btn.style.opacity = done ? '0.5' : '1';
-
   openModal('exModal');
 }
 
 function logFromModal() {
   if (!curEx) return;
-  if (D.logs.some(l => l.id === curEx.id && l.date === new Date().toDateString())) {
-    toast('Already logged today!', 'info');
-    return;
-  }
+  if (D.logs.some(l => l.id === curEx.id && l.date === new Date().toDateString())) { toast('Already logged today!', 'info'); return; }
 
-  D.logs.push({ id: curEx.id, name: curEx.name, cat: curEx.cat, cals: curEx.cals, date: new Date().toDateString(), time: new Date().toLocaleTimeString() });
-  D.totalW++;
-  D.totalC += curEx.cals;
-  D.totalM += 15;
-
+  D.logs.push({ id: curEx.id, date: new Date().toDateString() });
+  D.totalW++; D.totalC += curEx.cals; D.totalM += 15;
   const di = new Date().getDay();
   D.wCals[di] = (D.wCals[di] || 0) + curEx.cals;
   D.wMins[di] = (D.wMins[di] || 0) + 15;
-
   save();
   toast(`💪 ${curEx.name} logged! +${curEx.cals} cal`, 'success');
   closeModal('exModal');
-  renderToday();
-  refreshDash();
-  updateRing();
+  renderToday(); refreshDash(); updateRing();
 }
 
-// ============= BMI =============
+// UPI Functions
+function openUpiModal(amount, planName) {
+  currentUpiAmount = amount;
+  currentUpiPlan = planName;
+  const t = document.getElementById('upiTitle');
+  const s = document.getElementById('upiSub');
+  const c = document.getElementById('customAmtDiv');
+  const i = document.getElementById('upiCustomAmt');
+  
+  if (amount === 'Custom') {
+    t.textContent = 'Donate Any Amount';
+    s.textContent = 'Enter the amount you wish to contribute';
+    c.style.display = 'block';
+    i.value = '';
+    setTimeout(() => i.focus(), 100);
+  } else {
+    t.textContent = planName;
+    s.textContent = `Pay ${amount} securely via UPI`;
+    c.style.display = 'none';
+  }
+  openModal('upiModal');
+}
+
+function copyUpi() {
+  navigator.clipboard.writeText(UPI_ID).then(() => {
+    toast('✅ UPI ID Copied!', 'success');
+  }).catch(() => {
+    toast('Failed to copy', 'error');
+  });
+}
+
+function payUpi() {
+  let amt = currentUpiAmount;
+  if (amt === 'Custom') {
+    amt = document.getElementById('upiCustomAmt').value;
+    if (!amt || isNaN(amt) || amt <= 0) {
+      toast('Please enter a valid amount', 'error');
+      return;
+    }
+  } else {
+    amt = amt.replace('₹', '');
+  }
+  
+  const note = encodeURIComponent(`VictorFit - ${currentUpiPlan}`);
+  const upiUrl = `upi://pay?pa=${UPI_ID}&pn=VictorFit&am=${amt}&cu=INR&tn=${note}`;
+  
+  window.location.href = upiUrl;
+  
+  // Fallback toast if app doesn't open
+  setTimeout(() => {
+    toast(`Opening UPI app to pay ₹${amt}... If it doesn't open, copy the UPI ID and pay manually.`, 'info');
+  }, 500);
+}
+
+// Tools
 function calcBMI() {
   const w = parseFloat(document.getElementById('bmiW').value);
   const h = parseFloat(document.getElementById('bmiH').value);
   if (!w || !h || w <= 0 || h <= 0) { toast('Enter valid weight & height', 'error'); return; }
   const bmi = (w / ((h/100) ** 2)).toFixed(1);
   document.getElementById('bmiVal').textContent = bmi;
-
   let cat, col;
   if (bmi < 18.5) { cat = 'Underweight'; col = '#3b82f6'; }
   else if (bmi < 25) { cat = 'Normal'; col = '#10b981'; }
   else if (bmi < 30) { cat = 'Overweight'; col = '#f59e0b'; }
   else { cat = 'Obese'; col = '#f43f5e'; }
-
   const tag = document.getElementById('bmiTag');
-  tag.textContent = cat;
-  tag.style.background = col + '18';
-  tag.style.color = col;
-
+  tag.textContent = cat; tag.style.background = col + '18'; tag.style.color = col;
   document.getElementById('bmiRes').classList.add('show');
   toast(`BMI: ${bmi} — ${cat}`, 'success');
 }
 
-// ============= 1RM =============
 function calcORM() {
   const w = parseFloat(document.getElementById('ormW').value);
   const r = parseInt(document.getElementById('ormR').value);
@@ -399,10 +407,8 @@ function calcORM() {
   const orm = Math.round(w * (1 + r / 30));
   document.getElementById('ormVal').textContent = orm + ' kg';
   document.getElementById('ormRes').classList.add('show');
-  toast(`Estimated 1RM: ${orm} kg 🏋️`, 'success');
 }
 
-// ============= BODY FAT =============
 function calcBF() {
   const g = document.getElementById('bfG').value;
   const wa = parseFloat(document.getElementById('bfW').value);
@@ -410,79 +416,33 @@ function calcBF() {
   const h = parseFloat(document.getElementById('bfHt').value);
   const hp = parseFloat(document.getElementById('bfHp').value);
   if (!wa || !n || !h) { toast('Fill all required fields', 'error'); return; }
-
   let bf;
-  if (g === 'male') {
-    bf = 495 / (1.0324 - 0.19077 * Math.log10(wa - n) + 0.15456 * Math.log10(h)) - 450;
-  } else {
-    if (!hp) { toast('Hip measurement required for females', 'error'); return; }
+  if (g === 'male') bf = 495 / (1.0324 - 0.19077 * Math.log10(wa - n) + 0.15456 * Math.log10(h)) - 450;
+  else {
+    if (!hp) { toast('Hip required for females', 'error'); return; }
     bf = 495 / (1.29579 - 0.35004 * Math.log10(wa + hp - n) + 0.22100 * Math.log10(h)) - 450;
   }
   bf = Math.max(2, Math.min(60, bf)).toFixed(1);
   document.getElementById('bfVal').textContent = bf + '%';
-
-  let cat, col;
-  if (g === 'male') {
-    if (bf < 6) { cat = 'Essential'; col = '#3b82f6'; }
-    else if (bf < 14) { cat = 'Athletic'; col = '#10b981'; }
-    else if (bf < 18) { cat = 'Fitness'; col = '#8b5cf6'; }
-    else if (bf < 25) { cat = 'Average'; col = '#f59e0b'; }
-    else { cat = 'Above Avg'; col = '#f43f5e'; }
-  } else {
-    if (bf < 14) { cat = 'Essential'; col = '#3b82f6'; }
-    else if (bf < 21) { cat = 'Athletic'; col = '#10b981'; }
-    else if (bf < 25) { cat = 'Fitness'; col = '#8b5cf6'; }
-    else if (bf < 32) { cat = 'Average'; col = '#f59e0b'; }
-    else { cat = 'Above Avg'; col = '#f43f5e'; }
-  }
-
-  const tag = document.getElementById('bfTag');
-  tag.textContent = cat;
-  tag.style.background = col + '18';
-  tag.style.color = col;
   document.getElementById('bfRes').classList.add('show');
-  toast(`Body Fat: ${bf}% — ${cat}`, 'success');
 }
 
-// ============= CALORIE COUNTER =============
 function addFood() {
   const n = document.getElementById('fName').value.trim();
   const c = parseInt(document.getElementById('fCal').value);
-  if (!n || !c || c <= 0) { toast('Enter food name & calories', 'error'); return; }
-
-  D.foods.push({ name: n, cal: c, time: new Date().toLocaleTimeString() });
+  if (!n || !c || c <= 0) { toast('Enter food & calories', 'error'); return; }
+  D.foods.push({ name: n, cal: c });
   save();
-  document.getElementById('fName').value = '';
-  document.getElementById('fCal').value = '';
-  renderFoods();
-  updateCalSummary();
-  refreshDash();
-  toast(`🍽️ ${n} added (${c} cal)`, 'success');
+  document.getElementById('fName').value = ''; document.getElementById('fCal').value = '';
+  renderFoods(); updateCalSummary(); refreshDash();
+  toast(`🍽️ ${n} added`, 'success');
 }
-
-function removeFood(i) {
-  D.foods.splice(i, 1);
-  save();
-  renderFoods();
-  updateCalSummary();
-  refreshDash();
-}
-
+function removeFood(i) { D.foods.splice(i, 1); save(); renderFoods(); updateCalSummary(); refreshDash(); }
 function renderFoods() {
   const el = document.getElementById('foodList');
-  if (!D.foods.length) {
-    el.innerHTML = '<p style="text-align:center;color:var(--text-400);padding:18px;font-size:13px;">No food logged yet. Add your meals above!</p>';
-    return;
-  }
-  el.innerHTML = D.foods.map((f, i) => `
-    <div class="food-row">
-      <span class="fr-name">🍽️ ${f.name}</span>
-      <span class="fr-cal">${f.cal} cal</span>
-      <button class="fr-del" onclick="removeFood(${i})" title="Remove">✕</button>
-    </div>
-  `).join('');
+  if (!D.foods.length) { el.innerHTML = '<p style="text-align:center;color:var(--t4);padding:18px;font-size:13px;">No food logged yet.</p>'; return; }
+  el.innerHTML = D.foods.map((f, i) => `<div class="food-row"><span class="fr-name">🍽️ ${f.name}</span><span class="fr-cal">${f.cal} cal</span><button class="fr-del" onclick="removeFood(${i})">✕</button></div>`).join('');
 }
-
 function updateCalSummary() {
   const g = D.calGoal;
   const e = D.foods.reduce((s, f) => s + f.cal, 0);
@@ -491,127 +451,71 @@ function updateCalSummary() {
   document.getElementById('cLeft').textContent = Math.max(0, g - e).toLocaleString();
 }
 
-// ============= TIMER =============
-function fmt(s) {
-  return [Math.floor(s/3600), Math.floor((s%3600)/60), s%60].map(v => String(v).padStart(2,'0')).join(':');
-}
-
+function fmt(s) { return [Math.floor(s/3600), Math.floor((s%3600)/60), s%60].map(v => String(v).padStart(2,'0')).join(':'); }
 function tStart() {
   if (timerOn) return;
   timerOn = true;
-  document.getElementById('tStart').style.display = 'none';
-  document.getElementById('tPause').style.display = 'flex';
-  timerInt = setInterval(() => {
-    timerSec++;
-    document.getElementById('timerDisp').textContent = fmt(timerSec);
-  }, 1000);
+  document.getElementById('tStart').style.display = 'none'; document.getElementById('tPause').style.display = 'flex';
+  timerInt = setInterval(() => { timerSec++; document.getElementById('timerDisp').textContent = fmt(timerSec); }, 1000);
 }
-
 function tPause() {
-  timerOn = false;
-  clearInterval(timerInt);
-  document.getElementById('tStart').style.display = 'flex';
-  document.getElementById('tPause').style.display = 'none';
+  timerOn = false; clearInterval(timerInt);
+  document.getElementById('tStart').style.display = 'flex'; document.getElementById('tPause').style.display = 'none';
 }
-
-function tReset() {
-  tPause();
-  timerSec = 0;
-  laps = [];
-  document.getElementById('timerDisp').textContent = '00:00:00';
-  document.getElementById('lapsList').innerHTML = '';
-}
-
+function tReset() { tPause(); timerSec = 0; laps = []; document.getElementById('timerDisp').textContent = '00:00:00'; document.getElementById('lapsList').innerHTML = ''; }
 function tLap() {
   if (!timerOn && timerSec === 0) return;
   laps.push(timerSec);
-  const el = document.createElement('div');
-  el.className = 'lap-row';
+  const el = document.createElement('div'); el.className = 'lap-row';
   el.innerHTML = `<span class="lap-n">Lap ${laps.length}</span><span class="lap-t">${fmt(timerSec)}</span>`;
   document.getElementById('lapsList').prepend(el);
 }
 
-// ============= WATER =============
 function initWater() {
-  const el = document.getElementById('waterCups');
-  el.innerHTML = '';
+  const el = document.getElementById('waterCups'); el.innerHTML = '';
   for (let i = 0; i < 8; i++) {
     const cup = document.createElement('div');
-    cup.className = 'water-cup' + (i < D.water ? ' filled' : '');
+    cup.className = 'wcup' + (i < D.water ? ' filled' : '');
     cup.onclick = () => setWater(i + 1);
     el.appendChild(cup);
   }
   document.getElementById('wCount').textContent = D.water;
 }
-
 function setWater(n) {
-  D.water = n;
-  save();
-  initWater();
-  refreshDash();
-  updateRing();
-  if (n >= 8) toast('💧 Water goal achieved! Stay hydrated!', 'success');
+  D.water = n; save(); initWater(); refreshDash(); updateRing();
+  if (n >= 8) toast('💧 Water goal achieved!', 'success');
 }
+function addWater() { if (D.water >= 8) return toast('Already hit goal!', 'info'); setWater(D.water + 1); }
+function resetWater() { D.water = 0; save(); initWater(); refreshDash(); updateRing(); }
 
-function addWater() {
-  if (D.water >= 8) { toast('Already hit your water goal! 🎉', 'info'); return; }
-  setWater(D.water + 1);
-  toast(`💧 Glass ${D.water} of 8 logged!`, 'success');
-}
-
-function resetWater() {
-  D.water = 0;
-  save();
-  initWater();
-  refreshDash();
-  updateRing();
-  toast('Water tracker reset', 'info');
-}
-
-// ============= WEIGHT LOG =============
 function saveWeight() {
   const d = document.getElementById('wDate').value;
   const w = parseFloat(document.getElementById('wVal').value);
-  if (!d || !w || w <= 0) { toast('Enter valid date & weight', 'error'); return; }
+  if (!d || !w || w <= 0) return toast('Enter valid weight', 'error');
   D.weights.push({ date: d, weight: w });
   D.weights.sort((a, b) => new Date(b.date) - new Date(a.date));
-  save();
-  closeModal('weightModal');
-  renderWeights();
-  toast(`📊 Weight logged: ${w} kg`, 'success');
+  save(); closeModal('weightModal'); renderWeights(); toast('📊 Weight logged', 'success');
 }
-
 function renderWeights() {
   const el = document.getElementById('weightList');
-  if (!D.weights.length) {
-    el.innerHTML = '<p style="text-align:center;color:var(--text-400);padding:24px;font-size:13px;">No entries yet. Click "Log Weight" to start tracking!</p>';
-    return;
-  }
+  if (!D.weights.length) { el.innerHTML = '<p style="text-align:center;color:var(--t4);padding:24px;font-size:13px;">No entries yet.</p>'; return; }
   el.innerHTML = D.weights.slice(0, 10).map((e, i, a) => {
     const diff = i < a.length - 1 ? (e.weight - a[i+1].weight).toFixed(1) : 0;
-    const cls = diff > 0 ? 'color:var(--rose-500)' : diff < 0 ? 'color:var(--emerald-400)' : 'color:var(--text-400)';
+    const cls = diff > 0 ? 'color:var(--r5)' : diff < 0 ? 'color:var(--e4)' : 'color:var(--t4)';
     const txt = diff > 0 ? `+${diff} kg` : diff < 0 ? `${diff} kg` : '—';
     const fd = new Date(e.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     return `<div class="weight-row"><span class="wr-date">${fd}</span><span class="wr-val">${e.weight} kg</span><span class="wr-diff" style="${cls}">${txt}</span></div>`;
   }).join('');
 }
 
-// ============= CHARTS =============
 function renderCharts() {
   const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   const maxC = Math.max(...D.wCals, 100);
   const maxW = Math.max(...D.wMins, 10);
-
-  document.getElementById('calChart').innerHTML = D.wCals.map((v, i) =>
-    `<div class="bar-col"><div class="bar cal-bar" style="height:${Math.max((v/maxC)*100, 3)}%"></div><div class="bar-day">${days[i]}</div></div>`
-  ).join('');
-
-  document.getElementById('workChart').innerHTML = D.wMins.map((v, i) =>
-    `<div class="bar-col"><div class="bar work-bar" style="height:${Math.max((v/maxW)*100, 3)}%"></div><div class="bar-day">${days[i]}</div></div>`
-  ).join('');
+  document.getElementById('calChart').innerHTML = D.wCals.map((v, i) => `<div class="bar-col"><div class="bar bar-cal" style="height:${Math.max((v/maxC)*100, 3)}%"></div><div class="bar-day">${days[i]}</div></div>`).join('');
+  document.getElementById('workChart').innerHTML = D.wMins.map((v, i) => `<div class="bar-col"><div class="bar bar-work" style="height:${Math.max((v/maxW)*100, 3)}%"></div><div class="bar-day">${days[i]}</div></div>`).join('');
 }
 
-// ============= ACHIEVEMENTS =============
 function renderAchs() {
   document.getElementById('achGrid').innerHTML = ACHS.map(a => {
     let v = 0;
@@ -621,38 +525,27 @@ function renderAchs() {
     if (a.type === 'c') v = D.totalC;
     if (a.type === 'wl') v = D.weights.length;
     const ok = v >= a.thr;
-    return `<div class="ach-item ${ok ? '' : 'locked'}">
-      <span class="ach-icon">${a.icon}</span>
-      <div class="ach-name">${a.name}</div>
-      <div class="ach-desc">${ok ? a.desc : '🔒 ' + a.desc}</div>
-    </div>`;
+    return `<div class="ach-item ${ok ? '' : 'locked'}"><span class="ach-icon">${a.icon}</span><div class="ach-name">${a.name}</div><div class="ach-desc">${ok ? a.desc : '🔒 ' + a.desc}</div></div>`;
   }).join('');
 }
 
-// ============= PROFILE =============
 function updateProfile() {
   document.getElementById('pWork').textContent = D.totalW;
   document.getElementById('pCal').textContent = D.totalC.toLocaleString();
   document.getElementById('pStreak').textContent = D.bestStreak;
   document.getElementById('pMins').textContent = D.totalM;
 }
-
 function loadGoals() {
   document.getElementById('gCal').value = D.calGoal;
   document.getElementById('gWork').value = D.weekGoal;
   document.getElementById('gWt').value = D.targetWt;
 }
-
 function saveGoals() {
   D.calGoal = parseInt(document.getElementById('gCal').value) || 2200;
   D.weekGoal = parseInt(document.getElementById('gWork').value) || 5;
   D.targetWt = parseInt(document.getElementById('gWt').value) || 75;
-  save();
-  updateCalSummary();
-  toast('🎯 Goals saved!', 'success');
+  save(); updateCalSummary(); toast('🎯 Goals saved!', 'success');
 }
-
-// ============= STREAK =============
 function checkStreak() {
   const today = new Date().toDateString();
   if (D.lastDate !== today) {
@@ -664,14 +557,10 @@ function checkStreak() {
   }
 }
 
-// ============= MODALS =============
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-bg').forEach(m => m.addEventListener('click', e => { if (e.target.classList.contains('modal-bg')) closeModal(e.target.id); }));
 
-document.getElementById('exModal').addEventListener('click', e => { if (e.target.id === 'exModal') closeModal('exModal'); });
-document.getElementById('weightModal').addEventListener('click', e => { if (e.target.id === 'weightModal') closeModal('weightModal'); });
-
-// ============= TOASTS =============
 function toast(msg, type = 'info') {
   const wrap = document.getElementById('toastWrap');
   const t = document.createElement('div');
@@ -681,14 +570,3 @@ function toast(msg, type = 'info') {
   wrap.appendChild(t);
   setTimeout(() => { t.classList.add('out'); setTimeout(() => t.remove(), 300); }, 3500);
 }
-
-// ============= KEYBOARD =============
-document.addEventListener('keydown', e => {
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-  if (e.key === '1') nav('dashboard');
-  if (e.key === '2') nav('workouts');
-  if (e.key === '3') nav('tools');
-  if (e.key === '4') nav('progress');
-  if (e.key === '5') nav('profile');
-  if (e.key === 'Escape') { closeModal('exModal'); closeModal('weightModal'); }
-});
