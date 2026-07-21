@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="description" content="VictorFit — Your premium AI-powered fitness companion. Track workouts, count calories, monitor progress, and achieve your fitness goals.">
-  <meta name="theme-color" content="#0a0a0f">
+  <meta name="description" content="VictorFit — Your ultra-premium AI-powered fitness companion. Track workouts, count calories, monitor progress, and crush your fitness goals.">
+  <meta name="keywords" content="fitness, gym, workout tracker, calorie counter, BMI calculator, exercise, health">
+  <meta name="theme-color" content="#06060b">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>VictorFit — Premium Fitness Tracker</title>
@@ -13,545 +14,498 @@
 </head>
 <body>
 
-  <!-- ========== HEADER ========== -->
+  <!-- Animated Background -->
+  <div class="bg-orbs" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="bg-grid" aria-hidden="true"></div>
+
+  <!-- ===== HEADER ===== -->
   <header class="app-header" id="appHeader">
-    <a href="#" class="logo" onclick="navigate('dashboard'); return false;">
+    <a href="#" class="logo" onclick="nav('dashboard'); return false;">
       <div class="logo-icon">💪</div>
       <span class="logo-text">VictorFit</span>
     </a>
     <nav>
       <ul class="nav-links" id="navLinks">
-        <li><a href="#" class="active" data-section="dashboard" onclick="navigate('dashboard')">
-          <span>📊</span> Dashboard
+        <li><a href="#" class="active" data-section="dashboard" onclick="nav('dashboard')">
+          <span class="nav-emoji">📊</span> Dashboard
         </a></li>
-        <li><a href="#" data-section="workouts" onclick="navigate('workouts')">
-          <span>🏋️</span> Workouts
+        <li><a href="#" data-section="workouts" onclick="nav('workouts')">
+          <span class="nav-emoji">🏋️</span> Workouts
         </a></li>
-        <li><a href="#" data-section="tools" onclick="navigate('tools')">
-          <span>🧰</span> Tools
+        <li><a href="#" data-section="tools" onclick="nav('tools')">
+          <span class="nav-emoji">🧰</span> Tools
         </a></li>
-        <li><a href="#" data-section="progress" onclick="navigate('progress')">
-          <span>📈</span> Progress
+        <li><a href="#" data-section="progress" onclick="nav('progress')">
+          <span class="nav-emoji">📈</span> Progress
         </a></li>
-        <li><a href="#" data-section="profile" onclick="navigate('profile')">
-          <span>👤</span> Profile
+        <li><a href="#" data-section="profile" onclick="nav('profile')">
+          <span class="nav-emoji">👤</span> Profile
         </a></li>
       </ul>
     </nav>
-    <button class="hamburger" id="hamburgerBtn" onclick="toggleMobileNav()" aria-label="Toggle menu">
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </header>
 
-  <!-- ========== MAIN CONTENT ========== -->
+  <!-- ===== MAIN ===== -->
   <main class="main-content">
 
-    <!-- ======= DASHBOARD SECTION ======= -->
-    <section class="app-section active" id="section-dashboard">
-      <!-- Greeting -->
-      <div class="greeting-banner fade-up">
-        <h2>Good <span id="greeting-time">Morning</span>, <span>Champion</span> 🔥</h2>
-        <p>Let's crush your fitness goals today. You're doing amazing!</p>
-        <div class="greeting-date" id="greeting-date"></div>
+    <!-- ===== DASHBOARD ===== -->
+    <section class="app-section active" id="sec-dashboard">
+
+      <div class="hero-banner reveal">
+        <div class="hero-top">
+          <span class="hero-badge">🔥 Day <span id="streakBadge">1</span></span>
+        </div>
+        <h2>Good <span id="greetTime">Morning</span>, <span class="name-highlight">Champion</span> 💪</h2>
+        <p class="hero-sub">Let's crush your fitness goals today. You're doing amazing!</p>
+        <div class="hero-date" id="heroDate">📅 Monday, July 21, 2026</div>
+        <div class="hero-motivation" id="heroQuote">"The only bad workout is the one that didn't happen."</div>
       </div>
 
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card fade-up" onclick="navigate('tools')">
-          <div class="stat-icon calories">🔥</div>
-          <div class="stat-value" id="dash-calories">0</div>
-          <div class="stat-label">Calories Burned</div>
-          <div class="stat-change positive">↑ 12%</div>
+      <div class="stats-row">
+        <div class="stat-card calories-card card-shine reveal" onclick="nav('tools')">
+          <div class="stat-icon-wrap fire">🔥</div>
+          <div class="stat-value" id="dCalories">0</div>
+          <div class="stat-label">Calories Eaten</div>
+          <div class="stat-trend up">↑ 12% vs yesterday</div>
         </div>
-        <div class="stat-card fade-up" onclick="navigate('workouts')">
-          <div class="stat-icon workouts">🏋️</div>
-          <div class="stat-value" id="dash-workouts">0</div>
+        <div class="stat-card workouts-card card-shine reveal" onclick="nav('workouts')">
+          <div class="stat-icon-wrap muscle">🏋️</div>
+          <div class="stat-value" id="dWorkouts">0</div>
           <div class="stat-label">Workouts Done</div>
-          <div class="stat-change positive">↑ 3 this week</div>
+          <div class="stat-trend up">↑ 3 this week</div>
         </div>
-        <div class="stat-card fade-up" onclick="navigate('tools')">
-          <div class="stat-icon water">💧</div>
-          <div class="stat-value" id="dash-water">0</div>
+        <div class="stat-card water-card card-shine reveal" onclick="nav('tools')">
+          <div class="stat-icon-wrap drop">💧</div>
+          <div class="stat-value" id="dWater">0</div>
           <div class="stat-label">Glasses of Water</div>
-          <div class="stat-change positive">↑ On Track</div>
+          <div class="stat-trend up">↑ On Track</div>
         </div>
-        <div class="stat-card fade-up">
-          <div class="stat-icon streak">⚡</div>
-          <div class="stat-value" id="dash-streak">0</div>
+        <div class="stat-card streak-card card-shine reveal">
+          <div class="stat-icon-wrap bolt">⚡</div>
+          <div class="stat-value" id="dStreak">1</div>
           <div class="stat-label">Day Streak</div>
-          <div class="stat-change positive">🔥 Keep going!</div>
+          <div class="stat-trend neutral">🔥 Keep going!</div>
         </div>
       </div>
 
-      <!-- Dashboard Grid -->
-      <div class="dashboard-grid">
-        <!-- Today's Workout -->
-        <div class="glass-card workout-preview-card fade-up">
-          <div class="workout-preview-header">
-            <h3>🗓️ Today's Workout</h3>
-            <button class="btn-secondary" onclick="navigate('workouts')">View All</button>
+      <div class="dash-grid">
+        <div class="card card-shine reveal">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <div class="card-title">🗓️ Today's Workout</div>
+            <button class="btn-secondary" onclick="nav('workouts')">View All</button>
           </div>
-          <div class="workout-preview-list" id="todayWorkoutList">
-            <!-- Filled by JS -->
-          </div>
+          <p class="card-subtitle">Your daily exercise plan</p>
+          <div id="todayList"></div>
         </div>
 
-        <!-- Progress Ring -->
-        <div class="glass-card progress-ring-card fade-up">
-          <h3 style="margin-bottom: 16px; font-family: Outfit; font-weight: 700;">Daily Goal</h3>
-          <div class="progress-ring-container">
-            <svg width="160" height="160" viewBox="0 0 160 160">
+        <div class="card ring-card card-shine reveal">
+          <div class="card-title" style="justify-content:center;margin-bottom:16px;">🎯 Daily Goal</div>
+          <div class="ring-wrap">
+            <svg width="170" height="170" viewBox="0 0 170 170">
               <defs>
-                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#6c5ce7"/>
-                  <stop offset="100%" style="stop-color:#a29bfe"/>
+                <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#8b5cf6"/>
+                  <stop offset="50%" style="stop-color:#6366f1"/>
+                  <stop offset="100%" style="stop-color:#3b82f6"/>
                 </linearGradient>
               </defs>
-              <circle class="progress-ring-bg" cx="80" cy="80" r="68"/>
-              <circle class="progress-ring-fill" id="progressRing" cx="80" cy="80" r="68"
-                stroke-dasharray="427.26" stroke-dashoffset="427.26"/>
+              <circle class="ring-bg" cx="85" cy="85" r="72"/>
+              <circle class="ring-fill" id="ringFill" cx="85" cy="85" r="72"
+                stroke-dasharray="452.39" stroke-dashoffset="452.39"/>
             </svg>
-            <div class="progress-ring-text">
-              <span class="percent" id="goalPercent">0%</span>
-              <span class="label">Completed</span>
+            <div class="ring-text">
+              <span class="ring-pct" id="ringPct">0%</span>
+              <span class="ring-label">Complete</span>
             </div>
           </div>
-          <p style="color: var(--text-secondary); font-size: 13px;">Complete your workouts & hit water goals</p>
+          <p style="color:var(--text-400);font-size:12.5px;">Workouts + Hydration goals</p>
         </div>
       </div>
 
-      <!-- Ad Banner -->
-      <div class="ad-banner fade-up">
-        <div class="ad-content">
-          <span class="ad-emoji">🏆</span>
-          <div class="ad-title">Upgrade to VictorFit Pro</div>
-          <p class="ad-text">Get personalized AI workout plans, advanced analytics, and premium exercises. 7-day free trial!</p>
-          <button class="ad-cta" onclick="showToast('🎉 Thanks for your interest! Pro coming soon.', 'info')">Start Free Trial</button>
-        </div>
+      <div class="ad-section reveal">
+        <span class="ad-icon">🏆</span>
+        <div class="ad-h">Upgrade to VictorFit Pro</div>
+        <p class="ad-p">Get personalized AI workout plans, advanced analytics, and premium exercises. 7-day free trial!</p>
+        <button class="ad-cta-btn" onclick="toast('🎉 Thanks for your interest! Pro coming soon.','info')">Start Free Trial</button>
       </div>
     </section>
 
-    <!-- ======= WORKOUTS SECTION ======= -->
-    <section class="app-section" id="section-workouts">
+    <!-- ===== WORKOUTS ===== -->
+    <section class="app-section" id="sec-workouts">
       <div class="section-header">
-        <h1>💪 Workout Library</h1>
+        <h1><span class="gradient-text">💪 Workout Library</span></h1>
         <p>Choose your workout and start training like a champion</p>
       </div>
 
-      <!-- Categories -->
-      <div class="workout-categories" id="workoutCategories">
-        <button class="category-btn active" data-cat="all" onclick="filterExercises('all')">🔥 All</button>
-        <button class="category-btn" data-cat="chest" onclick="filterExercises('chest')">🫁 Chest</button>
-        <button class="category-btn" data-cat="back" onclick="filterExercises('back')">🔙 Back</button>
-        <button class="category-btn" data-cat="legs" onclick="filterExercises('legs')">🦵 Legs</button>
-        <button class="category-btn" data-cat="arms" onclick="filterExercises('arms')">💪 Arms</button>
-        <button class="category-btn" data-cat="shoulders" onclick="filterExercises('shoulders')">🤷 Shoulders</button>
-        <button class="category-btn" data-cat="core" onclick="filterExercises('core')">🧘 Core</button>
-        <button class="category-btn" data-cat="cardio" onclick="filterExercises('cardio')">🏃 Cardio</button>
+      <div class="cat-pills" id="catPills">
+        <button class="cat-pill active" data-cat="all" onclick="filterEx('all')">🔥 All</button>
+        <button class="cat-pill" data-cat="chest" onclick="filterEx('chest')">🫁 Chest</button>
+        <button class="cat-pill" data-cat="back" onclick="filterEx('back')">🔙 Back</button>
+        <button class="cat-pill" data-cat="legs" onclick="filterEx('legs')">🦵 Legs</button>
+        <button class="cat-pill" data-cat="arms" onclick="filterEx('arms')">💪 Arms</button>
+        <button class="cat-pill" data-cat="shoulders" onclick="filterEx('shoulders')">🤷 Shoulders</button>
+        <button class="cat-pill" data-cat="core" onclick="filterEx('core')">🧘 Core</button>
+        <button class="cat-pill" data-cat="cardio" onclick="filterEx('cardio')">🏃 Cardio</button>
       </div>
 
-      <!-- Exercise Grid -->
-      <div class="exercises-grid" id="exercisesGrid">
-        <!-- Filled by JS -->
-      </div>
+      <div class="ex-grid" id="exGrid"></div>
 
-      <!-- Ad Inline -->
-      <div class="ad-inline">
-        <span class="ad-inline-icon">🥤</span>
-        <div class="ad-inline-text">
+      <div class="ad-inline-bar">
+        <span class="ai-icon">🥤</span>
+        <div class="ai-text">
           <h4>FitFuel Protein Shake</h4>
           <p>30g protein per serving. Use code VICTOR20 for 20% off!</p>
         </div>
       </div>
     </section>
 
-    <!-- ======= TOOLS SECTION ======= -->
-    <section class="app-section" id="section-tools">
+    <!-- ===== TOOLS ===== -->
+    <section class="app-section" id="sec-tools">
       <div class="section-header">
-        <h1>🧰 Fitness Tools</h1>
-        <p>Powerful calculators and trackers to optimize your fitness journey</p>
+        <h1><span class="gradient-text">🧰 Fitness Tools</span></h1>
+        <p>Powerful calculators and trackers to supercharge your journey</p>
       </div>
 
       <div class="tools-grid">
-        <!-- BMI Calculator -->
-        <div class="tool-card fade-up" id="bmiTool">
-          <h3>⚖️ BMI Calculator</h3>
-          <p class="tool-desc">Calculate your Body Mass Index to track your health</p>
+        <!-- BMI -->
+        <div class="tool-card reveal">
+          <div class="card-title">⚖️ BMI Calculator</div>
+          <p class="card-subtitle">Calculate your Body Mass Index</p>
           <div class="input-row">
             <div class="input-group">
-              <label for="bmiWeight">Weight (kg)</label>
-              <input type="number" id="bmiWeight" placeholder="70" min="1" max="500">
+              <label for="bmiW">Weight (kg)</label>
+              <input type="number" id="bmiW" placeholder="70" min="1" max="500">
             </div>
             <div class="input-group">
-              <label for="bmiHeight">Height (cm)</label>
-              <input type="number" id="bmiHeight" placeholder="175" min="50" max="300">
+              <label for="bmiH">Height (cm)</label>
+              <input type="number" id="bmiH" placeholder="175" min="50" max="300">
             </div>
           </div>
-          <button class="btn-primary" onclick="calculateBMI()" id="bmiCalcBtn">Calculate BMI</button>
-          <div class="result-display" id="bmiResult">
-            <div class="result-value" id="bmiValue">--</div>
-            <div class="result-label">Your BMI</div>
-            <span class="result-category" id="bmiCategory"></span>
+          <button class="btn btn-primary" onclick="calcBMI()">Calculate BMI</button>
+          <div class="result-box" id="bmiRes">
+            <div class="result-number" id="bmiVal">--</div>
+            <div class="result-desc">Your BMI</div>
+            <span class="result-tag" id="bmiTag"></span>
           </div>
         </div>
 
-        <!-- Calorie Calculator -->
-        <div class="tool-card fade-up" id="calorieTool">
-          <h3>🔥 Calorie Counter</h3>
-          <p class="tool-desc">Track your daily calorie intake and stay on target</p>
-          <div class="calorie-summary">
-            <div class="calorie-item goal">
-              <div class="cal-value" id="calGoal">2200</div>
-              <div class="cal-label">Goal</div>
-            </div>
-            <div class="calorie-item eaten">
-              <div class="cal-value" id="calEaten">0</div>
-              <div class="cal-label">Eaten</div>
-            </div>
-            <div class="calorie-item remaining">
-              <div class="cal-value" id="calRemaining">2200</div>
-              <div class="cal-label">Remaining</div>
-            </div>
+        <!-- Calories -->
+        <div class="tool-card reveal">
+          <div class="card-title">🔥 Calorie Counter</div>
+          <p class="card-subtitle">Track your daily calorie intake</p>
+          <div class="cal-summary">
+            <div class="cal-box goal"><div class="cb-val" id="cGoal">2200</div><div class="cb-lbl">Goal</div></div>
+            <div class="cal-box eaten"><div class="cb-val" id="cEat">0</div><div class="cb-lbl">Eaten</div></div>
+            <div class="cal-box left"><div class="cb-val" id="cLeft">2200</div><div class="cb-lbl">Left</div></div>
           </div>
           <div class="input-row">
             <div class="input-group">
-              <label for="foodName">Food Item</label>
-              <input type="text" id="foodName" placeholder="e.g., Chicken Breast">
+              <label for="fName">Food Item</label>
+              <input type="text" id="fName" placeholder="e.g., Chicken Breast">
             </div>
             <div class="input-group">
-              <label for="foodCalories">Calories</label>
-              <input type="number" id="foodCalories" placeholder="250" min="1">
+              <label for="fCal">Calories</label>
+              <input type="number" id="fCal" placeholder="250" min="1">
             </div>
           </div>
-          <button class="btn-primary" onclick="addFood()" id="addFoodBtn">+ Add Food</button>
-          <div class="food-log" id="foodLog">
-            <!-- Filled by JS -->
-          </div>
+          <button class="btn btn-primary" onclick="addFood()">+ Add Food</button>
+          <div class="food-list" id="foodList"></div>
         </div>
 
-        <!-- Stopwatch / Timer -->
-        <div class="tool-card fade-up" id="timerTool">
-          <h3>⏱️ Workout Timer</h3>
-          <p class="tool-desc">Precision stopwatch with lap tracking for interval training</p>
-          <div class="timer-display">
-            <div class="timer-time" id="timerDisplay">00:00:00</div>
-            <div class="timer-controls">
-              <button class="timer-btn start" id="timerStartBtn" onclick="startTimer()" title="Start">▶</button>
-              <button class="timer-btn pause" id="timerPauseBtn" onclick="pauseTimer()" title="Pause" style="display:none;">⏸</button>
-              <button class="timer-btn lap" onclick="lapTimer()" title="Lap">🏁</button>
-              <button class="timer-btn reset" onclick="resetTimer()" title="Reset">⟲</button>
+        <!-- Timer -->
+        <div class="tool-card reveal">
+          <div class="card-title">⏱️ Workout Timer</div>
+          <p class="card-subtitle">Precision stopwatch with lap tracking</p>
+          <div class="timer-face">
+            <div class="timer-digits" id="timerDisp">00:00:00</div>
+            <div class="timer-btns">
+              <button class="timer-btn t-start" id="tStart" onclick="tStart()" title="Start">▶</button>
+              <button class="timer-btn t-pause" id="tPause" onclick="tPause()" title="Pause" style="display:none;">⏸</button>
+              <button class="timer-btn t-lap" onclick="tLap()" title="Lap">🏁</button>
+              <button class="timer-btn t-reset" onclick="tReset()" title="Reset">⟲</button>
             </div>
           </div>
-          <div class="timer-laps" id="timerLaps"></div>
+          <div class="laps-list" id="lapsList"></div>
         </div>
 
-        <!-- Water Tracker -->
-        <div class="tool-card fade-up" id="waterTool">
-          <h3>💧 Water Tracker</h3>
-          <p class="tool-desc">Stay hydrated! Tap glasses to log your water intake</p>
-          <div class="water-tracker-visual" id="waterGlasses">
-            <!-- 8 glasses filled by JS -->
+        <!-- Water -->
+        <div class="tool-card reveal">
+          <div class="card-title">💧 Water Tracker</div>
+          <p class="card-subtitle">Stay hydrated! Tap glasses to log intake</p>
+          <div class="water-visual" id="waterCups"></div>
+          <div class="water-stat">
+            <div class="ws-count"><span id="wCount">0</span> / 8 glasses</div>
+            <div class="ws-goal">Daily Goal: 2 Liters (8 glasses)</div>
           </div>
-          <div class="water-info">
-            <div class="water-amount"><span id="waterCount">0</span> / 8 glasses</div>
-            <div class="water-goal">Daily Goal: 2 Liters (8 glasses)</div>
-          </div>
-          <div style="display:flex; gap:10px; margin-top: 16px;">
-            <button class="btn-primary" onclick="addWater()" style="flex:1;">+ Add Glass</button>
-            <button class="btn-danger" onclick="resetWater()">Reset</button>
+          <div style="display:flex;gap:10px;margin-top:16px;">
+            <button class="btn btn-primary" onclick="addWater()" style="flex:1;">+ Add Glass</button>
+            <button class="btn btn-danger" onclick="resetWater()">Reset</button>
           </div>
         </div>
 
-        <!-- 1RM Calculator -->
-        <div class="tool-card fade-up" id="oneRmTool">
-          <h3>🏋️ One Rep Max Calculator</h3>
-          <p class="tool-desc">Estimate your maximum single-rep lift using the Epley formula</p>
+        <!-- 1RM -->
+        <div class="tool-card reveal">
+          <div class="card-title">🏋️ One Rep Max</div>
+          <p class="card-subtitle">Estimate your max lift (Epley formula)</p>
           <div class="input-row">
             <div class="input-group">
-              <label for="ormWeight">Weight Lifted (kg)</label>
-              <input type="number" id="ormWeight" placeholder="80" min="1">
+              <label for="ormW">Weight (kg)</label>
+              <input type="number" id="ormW" placeholder="80" min="1">
             </div>
             <div class="input-group">
-              <label for="ormReps">Reps Performed</label>
-              <input type="number" id="ormReps" placeholder="5" min="1" max="30">
+              <label for="ormR">Reps</label>
+              <input type="number" id="ormR" placeholder="5" min="1" max="30">
             </div>
           </div>
-          <button class="btn-primary" onclick="calculateORM()" id="ormCalcBtn">Calculate 1RM</button>
-          <div class="result-display" id="ormResult">
-            <div class="result-value" id="ormValue">--</div>
-            <div class="result-label">Estimated One Rep Max</div>
+          <button class="btn btn-primary" onclick="calcORM()">Calculate 1RM</button>
+          <div class="result-box" id="ormRes">
+            <div class="result-number" id="ormVal">--</div>
+            <div class="result-desc">Estimated One Rep Max</div>
           </div>
         </div>
 
-        <!-- Body Fat Estimator -->
-        <div class="tool-card fade-up" id="bodyFatTool">
-          <h3>📐 Body Fat Estimator</h3>
-          <p class="tool-desc">Estimate your body fat percentage using the US Navy method</p>
+        <!-- Body Fat -->
+        <div class="tool-card reveal">
+          <div class="card-title">📐 Body Fat Estimator</div>
+          <p class="card-subtitle">US Navy method estimation</p>
           <div class="input-group">
-            <label for="bfGender">Gender</label>
-            <select id="bfGender">
+            <label for="bfG">Gender</label>
+            <select id="bfG">
               <option value="male">Male</option>
               <option value="female">Female</option>
             </select>
           </div>
           <div class="input-row">
             <div class="input-group">
-              <label for="bfWaist">Waist (cm)</label>
-              <input type="number" id="bfWaist" placeholder="85" min="30">
+              <label for="bfW">Waist (cm)</label>
+              <input type="number" id="bfW" placeholder="85" min="30">
             </div>
             <div class="input-group">
-              <label for="bfNeck">Neck (cm)</label>
-              <input type="number" id="bfNeck" placeholder="38" min="20">
+              <label for="bfN">Neck (cm)</label>
+              <input type="number" id="bfN" placeholder="38" min="20">
             </div>
           </div>
           <div class="input-row">
             <div class="input-group">
-              <label for="bfHeight">Height (cm)</label>
-              <input type="number" id="bfHeight" placeholder="175" min="50">
+              <label for="bfHt">Height (cm)</label>
+              <input type="number" id="bfHt" placeholder="175" min="50">
             </div>
-            <div class="input-group" id="bfHipGroup">
-              <label for="bfHip">Hip (cm) — females</label>
-              <input type="number" id="bfHip" placeholder="95" min="30">
+            <div class="input-group">
+              <label for="bfHp">Hip (cm) — females</label>
+              <input type="number" id="bfHp" placeholder="95" min="30">
             </div>
           </div>
-          <button class="btn-primary" onclick="calculateBodyFat()" id="bfCalcBtn">Estimate Body Fat</button>
-          <div class="result-display" id="bfResult">
-            <div class="result-value" id="bfValue">--</div>
-            <div class="result-label">Estimated Body Fat %</div>
-            <span class="result-category" id="bfCategory"></span>
+          <button class="btn btn-primary" onclick="calcBF()">Estimate Body Fat</button>
+          <div class="result-box" id="bfRes">
+            <div class="result-number" id="bfVal">--</div>
+            <div class="result-desc">Estimated Body Fat %</div>
+            <span class="result-tag" id="bfTag"></span>
           </div>
         </div>
       </div>
 
-      <!-- Ad Banner -->
-      <div class="ad-banner">
-        <div class="ad-content">
-          <span class="ad-emoji">📱</span>
-          <div class="ad-title">Get VictorFit Mobile App</div>
-          <p class="ad-text">Track workouts on-the-go, sync across devices, and get push notifications for reminders.</p>
-          <button class="ad-cta" onclick="showToast('📱 Mobile app coming soon to App Store & Play Store!', 'info')">Download Now</button>
-        </div>
+      <div class="ad-section">
+        <span class="ad-icon">📱</span>
+        <div class="ad-h">Get VictorFit Mobile App</div>
+        <p class="ad-p">Track workouts on the go, sync across devices, and get push notification reminders.</p>
+        <button class="ad-cta-btn" onclick="toast('📱 Mobile app coming soon!','info')">Download Now</button>
       </div>
     </section>
 
-    <!-- ======= PROGRESS SECTION ======= -->
-    <section class="app-section" id="section-progress">
+    <!-- ===== PROGRESS ===== -->
+    <section class="app-section" id="sec-progress">
       <div class="section-header">
-        <h1>📈 Your Progress</h1>
+        <h1><span class="gradient-text">📈 Your Progress</span></h1>
         <p>Visualize your fitness journey and celebrate your wins</p>
       </div>
 
-      <!-- Charts -->
-      <div class="progress-charts">
-        <div class="glass-card fade-up">
-          <h3 style="font-family: Outfit; font-weight: 700; margin-bottom: 16px;">🔥 Weekly Calories Burned</h3>
-          <div class="chart-container">
-            <div class="bar-chart" id="caloriesChart">
-              <!-- Filled by JS -->
-            </div>
-          </div>
+      <div class="charts-grid">
+        <div class="card reveal">
+          <div class="card-title">🔥 Weekly Calories Burned</div>
+          <p class="card-subtitle">Calories from logged workouts</p>
+          <div class="chart-area"><div class="bars" id="calChart"></div></div>
         </div>
-        <div class="glass-card fade-up">
-          <h3 style="font-family: Outfit; font-weight: 700; margin-bottom: 16px;">🏋️ Workouts This Week</h3>
-          <div class="chart-container">
-            <div class="bar-chart" id="workoutsChart">
-              <!-- Filled by JS -->
-            </div>
-          </div>
+        <div class="card reveal">
+          <div class="card-title">🏋️ Workout Minutes</div>
+          <p class="card-subtitle">Time spent training this week</p>
+          <div class="chart-area"><div class="bars" id="workChart"></div></div>
         </div>
       </div>
 
-      <!-- Weight Log -->
-      <div class="glass-card weight-log-section fade-up">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 4px;">
-          <h3 style="font-family: Outfit; font-weight: 700;">📊 Weight Log</h3>
-          <button class="btn-secondary" onclick="openWeightModal()">+ Log Weight</button>
+      <div class="card reveal" style="margin-bottom:24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div class="card-title">📊 Weight Log</div>
+          <button class="btn-secondary" onclick="openModal('weightModal')">+ Log Weight</button>
         </div>
-        <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 16px;">Track your body weight over time</p>
-        <div class="weight-entries" id="weightEntries">
-          <!-- Filled by JS -->
-        </div>
+        <p class="card-subtitle">Track your body weight over time</p>
+        <div id="weightList"></div>
       </div>
 
-      <!-- Achievements -->
-      <div class="glass-card fade-up" style="margin-top: 20px;">
-        <h3 style="font-family: Outfit; font-weight: 700; margin-bottom: 4px;">🏅 Achievements</h3>
-        <p style="color: var(--text-secondary); font-size: 13px;">Unlock badges as you hit milestones</p>
-        <div class="achievements-grid" id="achievementsGrid">
-          <!-- Filled by JS -->
-        </div>
+      <div class="card reveal">
+        <div class="card-title">🏅 Achievements</div>
+        <p class="card-subtitle">Unlock badges as you hit milestones</p>
+        <div class="ach-grid" id="achGrid"></div>
       </div>
 
-      <!-- Ad Inline -->
-      <div class="ad-inline" style="margin-top: 24px;">
-        <span class="ad-inline-icon">👟</span>
-        <div class="ad-inline-text">
+      <div class="ad-inline-bar" style="margin-top:28px;">
+        <span class="ai-icon">👟</span>
+        <div class="ai-text">
           <h4>RunMax Pro Shoes</h4>
           <p>Ultra-lightweight training shoes. Free shipping on orders over $50!</p>
         </div>
       </div>
     </section>
 
-    <!-- ======= PROFILE SECTION ======= -->
-    <section class="app-section" id="section-profile">
+    <!-- ===== PROFILE ===== -->
+    <section class="app-section" id="sec-profile">
       <div class="section-header">
-        <h1>👤 Your Profile</h1>
+        <h1><span class="gradient-text">👤 Your Profile</span></h1>
         <p>Manage your account and personalize your experience</p>
       </div>
 
-      <!-- Profile Header -->
-      <div class="glass-card profile-header-card fade-up">
+      <div class="card profile-hero reveal">
         <div class="profile-avatar">🏆</div>
-        <div class="profile-info">
-          <h2 id="profileName">Victor Champion</h2>
-          <div class="profile-email" id="profileEmail">victor@victorfit.com</div>
-          <div class="member-since">Member since July 2026</div>
+        <div class="profile-details">
+          <h2>Victor Champion</h2>
+          <div class="pe">victor@victorfit.com</div>
+          <div class="pm">Member since July 2026</div>
         </div>
       </div>
 
-      <!-- Profile Stats -->
-      <div class="profile-stats-row">
-        <div class="profile-stat fade-up">
-          <div class="ps-value" id="totalWorkouts">0</div>
-          <div class="ps-label">Total Workouts</div>
+      <div class="profile-numbers">
+        <div class="pn-box reveal"><div class="pn-val" id="pWork">0</div><div class="pn-lbl">Total Workouts</div></div>
+        <div class="pn-box reveal"><div class="pn-val" id="pCal">0</div><div class="pn-lbl">Total Calories</div></div>
+        <div class="pn-box reveal"><div class="pn-val" id="pStreak">0</div><div class="pn-lbl">Best Streak</div></div>
+        <div class="pn-box reveal"><div class="pn-val" id="pMins">0</div><div class="pn-lbl">Minutes Trained</div></div>
+      </div>
+
+      <div class="settings-cols">
+        <div class="card reveal">
+          <div class="card-title">⚙️ Settings</div>
+          <p class="card-subtitle">Customize your experience</p>
+          <div class="setting-row">
+            <div class="sr-label">🔔 Notifications</div>
+            <button class="toggle on" onclick="this.classList.toggle('on');toast(this.classList.contains('on')?'✅ Enabled':'❌ Disabled','info')"></button>
+          </div>
+          <div class="setting-row">
+            <div class="sr-label">🌙 Dark Mode</div>
+            <button class="toggle on" onclick="this.classList.toggle('on');toast(this.classList.contains('on')?'✅ Enabled':'❌ Disabled','info')"></button>
+          </div>
+          <div class="setting-row">
+            <div class="sr-label">📊 Weekly Report</div>
+            <button class="toggle on" onclick="this.classList.toggle('on');toast(this.classList.contains('on')?'✅ Enabled':'❌ Disabled','info')"></button>
+          </div>
+          <div class="setting-row">
+            <div class="sr-label">🔊 Sound Effects</div>
+            <button class="toggle" onclick="this.classList.toggle('on');toast(this.classList.contains('on')?'✅ Enabled':'❌ Disabled','info')"></button>
+          </div>
         </div>
-        <div class="profile-stat fade-up">
-          <div class="ps-value" id="totalCalories">0</div>
-          <div class="ps-label">Total Calories</div>
-        </div>
-        <div class="profile-stat fade-up">
-          <div class="ps-value" id="bestStreak">0</div>
-          <div class="ps-label">Best Streak</div>
-        </div>
-        <div class="profile-stat fade-up">
-          <div class="ps-value" id="totalMinutes">0</div>
-          <div class="ps-label">Minutes Trained</div>
+
+        <div class="card reveal">
+          <div class="card-title">🎯 Goals</div>
+          <p class="card-subtitle">Set your fitness targets</p>
+          <div class="input-group">
+            <label for="gCal">Daily Calorie Goal</label>
+            <input type="number" id="gCal" value="2200" min="500" max="10000">
+          </div>
+          <div class="input-group">
+            <label for="gWork">Weekly Workout Goal</label>
+            <input type="number" id="gWork" value="5" min="1" max="14">
+          </div>
+          <div class="input-group">
+            <label for="gWt">Target Weight (kg)</label>
+            <input type="number" id="gWt" value="75" min="30" max="300">
+          </div>
+          <button class="btn btn-primary" onclick="saveGoals()">Save Goals</button>
         </div>
       </div>
 
-      <!-- Settings -->
-      <div class="settings-grid">
-        <div class="glass-card fade-up">
-          <h3 style="font-family: Outfit; font-weight: 700; margin-bottom: 16px;">⚙️ Settings</h3>
-          <div class="setting-item">
-            <div class="setting-label"><span class="si-icon">🔔</span> Notifications</div>
-            <button class="toggle-switch active" onclick="toggleSetting(this)" id="toggleNotif"></button>
-          </div>
-          <div class="setting-item">
-            <div class="setting-label"><span class="si-icon">🌙</span> Dark Mode</div>
-            <button class="toggle-switch active" onclick="toggleSetting(this)" id="toggleDark"></button>
-          </div>
-          <div class="setting-item">
-            <div class="setting-label"><span class="si-icon">📊</span> Weekly Report</div>
-            <button class="toggle-switch active" onclick="toggleSetting(this)" id="toggleReport"></button>
-          </div>
-          <div class="setting-item">
-            <div class="setting-label"><span class="si-icon">🔊</span> Sound Effects</div>
-            <button class="toggle-switch" onclick="toggleSetting(this)" id="toggleSound"></button>
-          </div>
-        </div>
-
-        <div class="glass-card fade-up">
-          <h3 style="font-family: Outfit; font-weight: 700; margin-bottom: 16px;">🎯 Goals</h3>
-          <div class="input-group">
-            <label for="goalCalories">Daily Calorie Goal</label>
-            <input type="number" id="goalCalories" value="2200" min="500" max="10000">
-          </div>
-          <div class="input-group">
-            <label for="goalWorkouts">Weekly Workout Goal</label>
-            <input type="number" id="goalWorkouts" value="5" min="1" max="14">
-          </div>
-          <div class="input-group">
-            <label for="goalWeight">Target Weight (kg)</label>
-            <input type="number" id="goalWeight" value="75" min="30" max="300">
-          </div>
-          <button class="btn-primary" onclick="saveGoals()">Save Goals</button>
-        </div>
-      </div>
-
-      <!-- Ad Banner -->
-      <div class="ad-banner" style="margin-top: 24px;">
-        <div class="ad-content">
-          <span class="ad-emoji">🎧</span>
-          <div class="ad-title">FitBeats Wireless Earbuds</div>
-          <p class="ad-text">Sweatproof, 40-hour battery, deep bass. Perfect for intense workouts. $49.99</p>
-          <button class="ad-cta" onclick="showToast('🎧 Thanks for your interest! Redirecting...', 'info')">Shop Now</button>
-        </div>
+      <div class="ad-section" style="margin-top:28px;">
+        <span class="ad-icon">🎧</span>
+        <div class="ad-h">FitBeats Wireless Earbuds</div>
+        <p class="ad-p">Sweatproof, 40-hour battery, deep bass. Perfect for intense workouts. $49.99</p>
+        <button class="ad-cta-btn" onclick="toast('🎧 Thanks for your interest!','info')">Shop Now</button>
       </div>
     </section>
-
   </main>
 
-  <!-- ========== MOBILE BOTTOM NAV ========== -->
-  <nav class="bottom-nav" id="bottomNav">
-    <ul class="bottom-nav-items">
-      <li><a href="#" class="active" data-section="dashboard" onclick="navigate('dashboard')">
-        <span class="bnav-icon">📊</span> Home
+  <!-- Mobile Bottom Nav -->
+  <nav class="bottom-bar" id="bottomBar">
+    <ul>
+      <li><a href="#" class="active" data-section="dashboard" onclick="nav('dashboard')">
+        <span class="bb-icon">📊</span> Home
       </a></li>
-      <li><a href="#" data-section="workouts" onclick="navigate('workouts')">
-        <span class="bnav-icon">🏋️</span> Workouts
+      <li><a href="#" data-section="workouts" onclick="nav('workouts')">
+        <span class="bb-icon">🏋️</span> Workouts
       </a></li>
-      <li><a href="#" data-section="tools" onclick="navigate('tools')">
-        <span class="bnav-icon">🧰</span> Tools
+      <li><a href="#" data-section="tools" onclick="nav('tools')">
+        <span class="bb-icon">🧰</span> Tools
       </a></li>
-      <li><a href="#" data-section="progress" onclick="navigate('progress')">
-        <span class="bnav-icon">📈</span> Progress
+      <li><a href="#" data-section="progress" onclick="nav('progress')">
+        <span class="bb-icon">📈</span> Progress
       </a></li>
-      <li><a href="#" data-section="profile" onclick="navigate('profile')">
-        <span class="bnav-icon">👤</span> Profile
+      <li><a href="#" data-section="profile" onclick="nav('profile')">
+        <span class="bb-icon">👤</span> Profile
       </a></li>
     </ul>
   </nav>
 
-  <!-- ========== WEIGHT LOG MODAL ========== -->
-  <div class="modal-overlay" id="weightModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3>📊 Log Your Weight</h3>
-        <button class="modal-close" onclick="closeWeightModal()">✕</button>
+  <!-- Weight Modal -->
+  <div class="modal-bg" id="weightModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>📊 Log Weight</h3>
+        <button class="modal-x" onclick="closeModal('weightModal')">✕</button>
       </div>
       <div class="input-group">
-        <label for="weightDate">Date</label>
-        <input type="date" id="weightDate">
+        <label for="wDate">Date</label>
+        <input type="date" id="wDate">
       </div>
       <div class="input-group">
-        <label for="weightValue">Weight (kg)</label>
-        <input type="number" id="weightValue" placeholder="75.0" step="0.1" min="20" max="500">
+        <label for="wVal">Weight (kg)</label>
+        <input type="number" id="wVal" placeholder="75.0" step="0.1" min="20" max="500">
       </div>
-      <button class="btn-primary" onclick="saveWeight()">Save Entry</button>
+      <button class="btn btn-primary" onclick="saveWeight()">Save Entry</button>
     </div>
   </div>
 
-  <!-- ========== EXERCISE DETAIL MODAL ========== -->
-  <div class="modal-overlay" id="exerciseModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 id="exModalTitle">Exercise</h3>
-        <button class="modal-close" onclick="closeExerciseModal()">✕</button>
+  <!-- Exercise Modal -->
+  <div class="modal-bg" id="exModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3 id="emTitle">Exercise</h3>
+        <button class="modal-x" onclick="closeModal('exModal')">✕</button>
       </div>
-      <div style="font-size: 48px; text-align:center; margin-bottom:12px;" id="exModalEmoji"></div>
-      <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 16px; line-height: 1.6;" id="exModalDesc"></p>
-      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-        <div class="calorie-item" style="background: rgba(108,92,231,0.08);">
-          <div class="cal-value" id="exModalSets" style="color: var(--accent-secondary);">-</div>
-          <div class="cal-label">Sets</div>
+      <div style="font-size:52px;text-align:center;margin-bottom:14px;" id="emEmoji"></div>
+      <p style="color:var(--text-300);font-size:14px;line-height:1.65;margin-bottom:18px;" id="emDesc"></p>
+      <div class="ex-modal-stats">
+        <div class="ex-modal-stat" style="background:rgba(139,92,246,0.07);">
+          <div class="ems-val" id="emSets" style="color:var(--violet-400);">-</div>
+          <div class="ems-lbl">Sets</div>
         </div>
-        <div class="calorie-item" style="background: rgba(0,230,118,0.08);">
-          <div class="cal-value" id="exModalReps" style="color: var(--neon-green);">-</div>
-          <div class="cal-label">Reps</div>
+        <div class="ex-modal-stat" style="background:rgba(16,185,129,0.07);">
+          <div class="ems-val" id="emReps" style="color:var(--emerald-400);">-</div>
+          <div class="ems-lbl">Reps</div>
         </div>
-        <div class="calorie-item" style="background: rgba(255,145,0,0.08);">
-          <div class="cal-value" id="exModalCals" style="color: var(--neon-orange);">-</div>
-          <div class="cal-label">Calories</div>
+        <div class="ex-modal-stat" style="background:rgba(249,115,22,0.07);">
+          <div class="ems-val" id="emCals" style="color:var(--orange-500);">-</div>
+          <div class="ems-lbl">Calories</div>
         </div>
       </div>
-      <div id="exModalInstructions" style="font-size:13px; color: var(--text-secondary); line-height:1.7; margin-bottom: 20px;"></div>
-      <button class="btn-primary" id="exModalLogBtn" onclick="logWorkoutFromModal()">✅ Log This Workout</button>
+      <div id="emHow" style="font-size:13px;color:var(--text-300);line-height:1.75;margin-bottom:22px;"></div>
+      <button class="btn btn-primary" id="emLogBtn" onclick="logFromModal()">✅ Log This Workout</button>
     </div>
   </div>
 
-  <!-- ========== TOAST CONTAINER ========== -->
-  <div class="toast-container" id="toastContainer"></div>
+  <!-- Toast -->
+  <div class="toast-wrap" id="toastWrap"></div>
 
   <script src="script.js"></script>
 </body>
