@@ -2,430 +2,325 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <meta name="description" content="VictorFit — Your ultra-premium AI-powered fitness companion. Track workouts, count calories, monitor progress, and crush your fitness goals.">
-  <meta name="keywords" content="fitness, gym, workout tracker, calorie counter, BMI calculator, exercise, health">
-  <meta name="theme-color" content="#05050e">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>VictorFit Pro — Premium Fitness Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>VictorFit 4.0 - Premium Tracker</title>
   <link rel="stylesheet" href="styles.css">
+  <meta name="theme-color" content="#000000">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
   <meta name="google-adsense-account" content="ca-pub-9747982919206794">
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9747982919206794" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <!-- Animated Background -->
-  <div class="bg-orbs" aria-hidden="true">
-    <div class="orb o1"></div><div class="orb o2"></div>
-    <div class="orb o3"></div><div class="orb o4"></div>
-  </div>
-  <div class="bg-grid" aria-hidden="true"></div>
-
-  <!-- ===== HEADER ===== -->
-  <header class="app-header" id="appHeader">
-    <a href="#" class="logo" onclick="nav('dashboard'); return false;">
-      <div class="logo-icon">💪</div>
-      <span class="logo-text">VictorFit</span>
-    </a>
-    <nav>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="#" class="active" data-section="dashboard" onclick="nav('dashboard')"><span class="ni">📊</span> Dashboard</a></li>
-        <li><a href="#" data-section="workouts" onclick="nav('workouts')"><span class="ni">🏋️</span> Workouts</a></li>
-        <li><a href="#" data-section="tools" onclick="nav('tools')"><span class="ni">🧰</span> Tools</a></li>
-        <li><a href="#" data-section="progress" onclick="nav('progress')"><span class="ni">📈</span> Progress</a></li>
-        <li><a href="#" data-section="premium" onclick="nav('premium')"><span class="ni">👑</span> Premium</a></li>
-        <li><a href="#" data-section="profile" onclick="nav('profile')"><span class="ni">👤</span> Profile</a></li>
-      </ul>
-    </nav>
-    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </header>
-
-  <!-- ===== MAIN ===== -->
-  <main class="main-content">
-
-    <!-- ===== DASHBOARD ===== -->
-    <section class="app-section active" id="sec-dashboard">
-      <div class="hero-banner reveal">
-        <span class="hero-badge">🔥 Day <span id="streakBadge">1</span> Streak</span>
-        <h2>Good <span id="greetTime">Morning</span>, <span class="gtext">Champion</span> 💪</h2>
-        <p class="hero-sub">Let's crush your fitness goals today. You're doing amazing!</p>
-        <div class="hero-date" id="heroDate">📅 Monday, July 21, 2026</div>
-        <div class="hero-quote" id="heroQuote">"The only bad workout is the one that didn't happen."</div>
-      </div>
-
-      <div class="stats-row">
-        <div class="stat-card sc-cal reveal" onclick="nav('tools')">
-          <div class="si-wrap si-fire">🔥</div>
-          <div class="stat-val" id="dCalories">0</div>
-          <div class="stat-lbl">Calories Eaten</div>
-          <div class="stat-trend trend-up">↑ 12% vs yesterday</div>
-        </div>
-        <div class="stat-card sc-w reveal" onclick="nav('workouts')">
-          <div class="si-wrap si-muscle">🏋️</div>
-          <div class="stat-val" id="dWorkouts">0</div>
-          <div class="stat-lbl">Workouts Done</div>
-          <div class="stat-trend trend-up">↑ 3 this week</div>
-        </div>
-        <div class="stat-card sc-wt reveal" onclick="nav('tools')">
-          <div class="si-wrap si-drop">💧</div>
-          <div class="stat-val" id="dWater">0</div>
-          <div class="stat-lbl">Glasses of Water</div>
-          <div class="stat-trend trend-up">↑ On Track</div>
-        </div>
-        <div class="stat-card sc-st reveal">
-          <div class="si-wrap si-bolt">⚡</div>
-          <div class="stat-val" id="dStreak">1</div>
-          <div class="stat-lbl">Day Streak</div>
-          <div class="stat-trend trend-n">🔥 Keep going!</div>
-        </div>
-      </div>
-
-      <div class="dash-grid">
-        <div class="card card-violet reveal">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <div class="card-title">🗓️ Today's Workout</div>
-            <button class="btn-secondary" onclick="nav('workouts')">View All</button>
-          </div>
-          <p class="card-sub">Your daily exercise plan</p>
-          <div id="todayList"></div>
-        </div>
-
-        <div class="card card-cyan ring-card reveal">
-          <div class="card-title" style="justify-content:center;margin-bottom:16px;">🎯 Daily Goal</div>
-          <div class="ring-wrap">
-            <svg width="170" height="170" viewBox="0 0 170 170">
-              <defs>
-                <linearGradient id="ringGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#8b5cf6"/><stop offset="50%" style="stop-color:#6366f1"/><stop offset="100%" style="stop-color:#3b82f6"/>
-                </linearGradient>
-              </defs>
-              <circle class="ring-bg" cx="85" cy="85" r="72"/>
-              <circle class="ring-fill" id="ringFill" cx="85" cy="85" r="72" stroke-dasharray="452.39" stroke-dashoffset="452.39"/>
-            </svg>
-            <div class="ring-text"><span class="ring-pct" id="ringPct">0%</span><span class="ring-lbl">Complete</span></div>
-          </div>
-          <p style="color:var(--t4);font-size:12.5px;">Workouts + Hydration goals</p>
-        </div>
-      </div>
-
-      <div class="ad-section reveal">
-        <span class="ad-icon">🏆</span>
-        <div class="ad-h">Unlock VictorFit Premium</div>
-        <p class="ad-p">Get personalized AI workout plans, advanced analytics, and premium exercises.</p>
-        <button class="ad-cta" onclick="nav('premium')">View Plans</button>
-      </div>
-    </section>
-
-    <!-- ===== WORKOUTS ===== -->
-    <section class="app-section" id="sec-workouts">
-      <div class="section-header">
-        <h1><span class="gtext">💪 Workout Library</span></h1>
-        <p>Choose your workout and start training like a champion</p>
-      </div>
-      <div class="cat-pills" id="catPills">
-        <button class="cat-pill active" data-cat="all" onclick="filterEx('all')">🔥 All</button>
-        <button class="cat-pill" data-cat="chest" onclick="filterEx('chest')">🫁 Chest</button>
-        <button class="cat-pill" data-cat="back" onclick="filterEx('back')">🔙 Back</button>
-        <button class="cat-pill" data-cat="legs" onclick="filterEx('legs')">🦵 Legs</button>
-        <button class="cat-pill" data-cat="arms" onclick="filterEx('arms')">💪 Arms</button>
-        <button class="cat-pill" data-cat="shoulders" onclick="filterEx('shoulders')">🤷 Shoulders</button>
-        <button class="cat-pill" data-cat="core" onclick="filterEx('core')">🧘 Core</button>
-        <button class="cat-pill" data-cat="cardio" onclick="filterEx('cardio')">🏃 Cardio</button>
-      </div>
-      <div class="ex-grid" id="exGrid"></div>
-      <div class="ad-inline">
-        <span class="ai-icon">🥤</span>
-        <div class="ai-text"><h4>FitFuel Protein Shake</h4><p>30g protein per serving. Use code VICTOR20 for 20% off!</p></div>
-      </div>
-    </section>
-
-    <!-- ===== TOOLS ===== -->
-    <section class="app-section" id="sec-tools">
-      <div class="section-header">
-        <h1><span class="gtext">🧰 Fitness Tools</span></h1>
-        <p>Powerful calculators and trackers to supercharge your journey</p>
-      </div>
-      <div class="tools-grid">
-        <!-- BMI -->
-        <div class="tool-card card-violet reveal">
-          <div class="card-title">⚖️ BMI Calculator</div><p class="card-sub">Calculate your Body Mass Index</p>
-          <div class="input-row">
-            <div class="input-group"><label>Weight (kg)</label><input type="number" id="bmiW" placeholder="70"></div>
-            <div class="input-group"><label>Height (cm)</label><input type="number" id="bmiH" placeholder="175"></div>
-          </div>
-          <button class="btn btn-primary" onclick="calcBMI()">Calculate BMI</button>
-          <div class="result-box" id="bmiRes"><div class="result-num" id="bmiVal">--</div><div class="result-desc">Your BMI</div><span class="result-tag" id="bmiTag"></span></div>
-        </div>
-        <!-- Calories -->
-        <div class="tool-card card-rose reveal">
-          <div class="card-title">🔥 Calorie Counter</div><p class="card-sub">Track your daily calorie intake</p>
-          <div class="cal-summary">
-            <div class="cal-box cb-goal"><div class="cb-val" id="cGoal">2200</div><div class="cb-lbl">Goal</div></div>
-            <div class="cal-box cb-eat"><div class="cb-val" id="cEat">0</div><div class="cb-lbl">Eaten</div></div>
-            <div class="cal-box cb-left"><div class="cb-val" id="cLeft">2200</div><div class="cb-lbl">Left</div></div>
-          </div>
-          <div class="input-row">
-            <div class="input-group"><label>Food Item</label><input type="text" id="fName" placeholder="e.g., Chicken Breast"></div>
-            <div class="input-group"><label>Calories</label><input type="number" id="fCal" placeholder="250"></div>
-          </div>
-          <button class="btn btn-primary" onclick="addFood()">+ Add Food</button>
-          <div class="food-list" id="foodList"></div>
-        </div>
-        <!-- Timer -->
-        <div class="tool-card card-cyan reveal">
-          <div class="card-title">⏱️ Workout Timer</div><p class="card-sub">Precision stopwatch with lap tracking</p>
-          <div class="timer-face">
-            <div class="timer-digits" id="timerDisp">00:00:00</div>
-            <div class="timer-btns">
-              <button class="tbtn tb-start" id="tStart" onclick="tStart()">▶</button>
-              <button class="tbtn tb-pause" id="tPause" onclick="tPause()" style="display:none;">⏸</button>
-              <button class="tbtn tb-lap" onclick="tLap()">🏁</button>
-              <button class="tbtn tb-reset" onclick="tReset()">⟲</button>
-            </div>
-          </div>
-          <div class="laps-list" id="lapsList"></div>
-        </div>
-        <!-- Water -->
-        <div class="tool-card card-cyan reveal">
-          <div class="card-title">💧 Water Tracker</div><p class="card-sub">Stay hydrated! Tap glasses to log intake</p>
-          <div class="water-visual" id="waterCups"></div>
-          <div class="water-stat"><div class="ws-count"><span id="wCount">0</span> / 8 glasses</div><div class="ws-goal">Daily Goal: 2 Liters</div></div>
-          <div style="display:flex;gap:10px;margin-top:16px;">
-            <button class="btn btn-primary" onclick="addWater()" style="flex:1;">+ Add Glass</button>
-            <button class="btn btn-danger" onclick="resetWater()">Reset</button>
-          </div>
-        </div>
-        <!-- 1RM -->
-        <div class="tool-card card-violet reveal">
-          <div class="card-title">🏋️ One Rep Max</div><p class="card-sub">Estimate your max lift</p>
-          <div class="input-row">
-            <div class="input-group"><label>Weight (kg)</label><input type="number" id="ormW" placeholder="80"></div>
-            <div class="input-group"><label>Reps</label><input type="number" id="ormR" placeholder="5"></div>
-          </div>
-          <button class="btn btn-primary" onclick="calcORM()">Calculate 1RM</button>
-          <div class="result-box" id="ormRes"><div class="result-num" id="ormVal">--</div><div class="result-desc">Estimated One Rep Max</div></div>
-        </div>
-        <!-- Body Fat -->
-        <div class="tool-card card-rose reveal">
-          <div class="card-title">📐 Body Fat Estimator</div><p class="card-sub">US Navy method estimation</p>
-          <div class="input-group"><label>Gender</label><select id="bfG"><option value="male">Male</option><option value="female">Female</option></select></div>
-          <div class="input-row">
-            <div class="input-group"><label>Waist (cm)</label><input type="number" id="bfW" placeholder="85"></div>
-            <div class="input-group"><label>Neck (cm)</label><input type="number" id="bfN" placeholder="38"></div>
-          </div>
-          <div class="input-row">
-            <div class="input-group"><label>Height (cm)</label><input type="number" id="bfHt" placeholder="175"></div>
-            <div class="input-group"><label>Hip (cm) — females</label><input type="number" id="bfHp" placeholder="95"></div>
-          </div>
-          <button class="btn btn-primary" onclick="calcBF()">Estimate Body Fat</button>
-          <div class="result-box" id="bfRes"><div class="result-num" id="bfVal">--</div><div class="result-desc">Estimated Body Fat %</div><span class="result-tag" id="bfTag"></span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== PROGRESS ===== -->
-    <section class="app-section" id="sec-progress">
-      <div class="section-header">
-        <h1><span class="gtext">📈 Your Progress</span></h1>
-        <p>Visualize your fitness journey and celebrate your wins</p>
-      </div>
-      <div class="charts-grid">
-        <div class="card card-rose reveal">
-          <div class="card-title">🔥 Weekly Calories Burned</div><p class="card-sub">Calories from logged workouts</p>
-          <div class="chart-area"><div class="bars" id="calChart"></div></div>
-        </div>
-        <div class="card card-violet reveal">
-          <div class="card-title">🏋️ Workout Minutes</div><p class="card-sub">Time spent training this week</p>
-          <div class="chart-area"><div class="bars" id="workChart"></div></div>
-        </div>
-      </div>
-      <div class="card reveal" style="margin-bottom:24px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;">
-          <div class="card-title">📊 Weight Log</div><button class="btn-secondary" onclick="openModal('weightModal')">+ Log Weight</button>
-        </div>
-        <p class="card-sub">Track your body weight over time</p>
-        <div id="weightList"></div>
-      </div>
-      <div class="card reveal">
-        <div class="card-title">🏅 Achievements</div><p class="card-sub">Unlock badges as you hit milestones</p>
-        <div class="ach-grid" id="achGrid"></div>
-      </div>
-    </section>
-
-    <!-- ===== PREMIUM & PAYMENTS ===== -->
-    <section class="app-section" id="sec-premium">
-      <div class="section-header" style="text-align:center;">
-        <h1><span class="gtext">👑 VictorFit Premium</span></h1>
-        <p>Take your fitness journey to the absolute highest level.</p>
-      </div>
-
-      <div class="plans-grid">
-        <div class="plan-card reveal">
-          <span class="plan-icon">🥉</span><h3 class="plan-name">Basic</h3><p class="plan-desc">For beginners starting out</p>
-          <div class="plan-price free">Free</div><div class="plan-period">Forever</div>
-          <ul class="plan-features">
-            <li><span class="pf-check">✓</span> Basic workout library</li>
-            <li><span class="pf-check">✓</span> Calorie counter</li>
-            <li><span class="pf-check">✓</span> Water tracker</li>
-            <li><span class="pf-x">✕</span> AI personalized plans</li>
-            <li><span class="pf-x">✕</span> Advanced analytics</li>
-          </ul>
-          <button class="plan-btn free-btn" onclick="toast('You are currently on the Free plan!','info')">Current Plan</button>
-        </div>
-
-        <div class="plan-card featured reveal">
-          <span class="popular-badge">Most Popular</span>
-          <span class="plan-icon">💎</span><h3 class="plan-name">Pro</h3><p class="plan-desc">For dedicated fitness enthusiasts</p>
-          <div class="plan-price basic">₹499</div><div class="plan-period">per month</div>
-          <ul class="plan-features">
-            <li><span class="pf-check">✓</span> Everything in Free</li>
-            <li><span class="pf-check">✓</span> AI Workout Generator</li>
-            <li><span class="pf-check">✓</span> Advanced Progress Charts</li>
-            <li><span class="pf-check">✓</span> Ad-Free Experience</li>
-            <li><span class="pf-x">✕</span> 1-on-1 Coach Access</li>
-          </ul>
-          <button class="plan-btn pro-btn" onclick="openUpiModal('₹499', 'VictorFit Pro Monthly')">Upgrade to Pro</button>
-        </div>
-
-        <div class="plan-card reveal">
-          <span class="plan-icon">👑</span><h3 class="plan-name">Elite</h3><p class="plan-desc">The ultimate coaching experience</p>
-          <div class="plan-price pro">₹4999</div><div class="plan-period">per year</div>
-          <ul class="plan-features">
-            <li><span class="pf-check">✓</span> Everything in Pro</li>
-            <li><span class="pf-check">✓</span> 1-on-1 Expert Coaching</li>
-            <li><span class="pf-check">✓</span> Custom Diet Plans</li>
-            <li><span class="pf-check">✓</span> Priority Support</li>
-            <li><span class="pf-check">✓</span> Exclusive Merch</li>
-          </ul>
-          <button class="plan-btn gold-btn" onclick="openUpiModal('₹4999', 'VictorFit Elite Yearly')">Get Elite</button>
-        </div>
-      </div>
-
-      <!-- Donate -->
-      <div class="donate-section reveal">
-        <span class="donate-icon">❤️</span>
-        <h3 class="donate-h">Support VictorFit</h3>
-        <p class="donate-p">Love the app? Your support helps us keep the servers running and add new features faster. Buy us a protein shake!</p>
-        <div class="donate-grid">
-          <div class="donate-option" onclick="openUpiModal('₹50', 'Support - Small Shake')"><div class="do-amt">₹50</div><div class="do-lbl">Small Shake</div></div>
-          <div class="donate-option" onclick="openUpiModal('₹150', 'Support - Big Shake')"><div class="do-amt">₹150</div><div class="do-lbl">Big Shake</div></div>
-          <div class="donate-option" onclick="openUpiModal('₹500', 'Support - Supps Pack')"><div class="do-amt">₹500</div><div class="do-lbl">Supps Pack</div></div>
-          <div class="donate-option" onclick="openUpiModal('Custom', 'Custom Support')"><div class="do-amt">Custom</div><div class="do-lbl">Any Amount</div></div>
-        </div>
-        <button class="btn btn-secondary" onclick="openUpiModal('Custom', 'Direct Support')" style="border-color:rgba(244,63,94,0.3);color:var(--r5);">Donate via UPI directly</button>
-      </div>
-    </section>
-
-    <!-- ===== PROFILE ===== -->
-    <section class="app-section" id="sec-profile">
-      <div class="section-header">
-        <h1><span class="gtext">👤 Your Profile</span></h1>
-        <p>Manage your account and personalize your experience</p>
-      </div>
-      <div class="card profile-hero reveal">
-        <div class="pav">🏆</div>
-        <div class="pd"><h2>Victor Champion</h2><div class="pe">victor@victorfit.com</div><div class="pm">Member since July 2026</div></div>
-      </div>
-      <div class="profile-nums">
-        <div class="pn-box reveal"><div class="pn-val" id="pWork">0</div><div class="pn-lbl">Total Workouts</div></div>
-        <div class="pn-box reveal"><div class="pn-val" id="pCal">0</div><div class="pn-lbl">Total Calories</div></div>
-        <div class="pn-box reveal"><div class="pn-val" id="pStreak">0</div><div class="pn-lbl">Best Streak</div></div>
-        <div class="pn-box reveal"><div class="pn-val" id="pMins">0</div><div class="pn-lbl">Minutes Trained</div></div>
-      </div>
-      <div class="settings-cols">
-        <div class="card reveal">
-          <div class="card-title">⚙️ Settings</div><p class="card-sub">Customize your experience</p>
-          <div class="setting-row"><div class="sr-lbl">🔔 Notifications</div><button class="toggle on" onclick="this.classList.toggle('on');toast('Setting updated','info')"></button></div>
-          <div class="setting-row"><div class="sr-lbl">🌙 Dark Mode</div><button class="toggle on" onclick="this.classList.toggle('on');toast('Setting updated','info')"></button></div>
-          <div class="setting-row"><div class="sr-lbl">📊 Weekly Report</div><button class="toggle on" onclick="this.classList.toggle('on');toast('Setting updated','info')"></button></div>
-          <div class="setting-row"><div class="sr-lbl">🔊 Sound Effects</div><button class="toggle" onclick="this.classList.toggle('on');toast('Setting updated','info')"></button></div>
-        </div>
-        <div class="card reveal">
-          <div class="card-title">🎯 Goals</div><p class="card-sub">Set your fitness targets</p>
-          <div class="input-group"><label>Daily Calorie Goal</label><input type="number" id="gCal" value="2200"></div>
-          <div class="input-group"><label>Weekly Workout Goal</label><input type="number" id="gWork" value="5"></div>
-          <div class="input-group"><label>Target Weight (kg)</label><input type="number" id="gWt" value="75"></div>
-          <button class="btn btn-primary" onclick="saveGoals()">Save Goals</button>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Mobile Bottom Nav -->
-  <nav class="bottom-bar" id="bottomBar">
-    <ul>
-      <li><a href="#" class="active" data-section="dashboard" onclick="nav('dashboard')"><span class="bb-icon">📊</span> Home</a></li>
-      <li><a href="#" data-section="workouts" onclick="nav('workouts')"><span class="bb-icon">🏋️</span> Work</a></li>
-      <li><a href="#" data-section="tools" onclick="nav('tools')"><span class="bb-icon">🧰</span> Tools</a></li>
-      <li><a href="#" data-section="premium" onclick="nav('premium')"><span class="bb-icon">👑</span> Pro</a></li>
-      <li><a href="#" data-section="profile" onclick="nav('profile')"><span class="bb-icon">👤</span> Me</a></li>
+  <!-- Top Nav (Desktop) -->
+  <nav class="top-nav">
+    <a href="#" class="logo" onclick="nav('dash')">💪 <span>VictorFit</span></a>
+    <ul class="nav-links">
+      <li><a href="#" class="active" data-section="dash" onclick="nav('dash')">Dashboard</a></li>
+      <li><a href="#" data-section="work" onclick="nav('work')">Workouts</a></li>
+      <li><a href="#" data-section="tools" onclick="nav('tools')">Tools</a></li>
+      <li><a href="#" data-section="prog" onclick="nav('prog')">Progress</a></li>
+      <li><a href="#" data-section="pro" onclick="nav('pro')">Premium</a></li>
+      <li><a href="#" data-section="prof" onclick="nav('prof')">Profile</a></li>
     </ul>
   </nav>
 
-  <!-- Weight Modal -->
-  <div class="modal-bg" id="weightModal">
-    <div class="modal-box">
-      <div class="modal-head"><h3>📊 Log Weight</h3><button class="modal-x" onclick="closeModal('weightModal')">✕</button></div>
-      <div class="input-group"><label>Date</label><input type="date" id="wDate"></div>
-      <div class="input-group"><label>Weight (kg)</label><input type="number" id="wVal" placeholder="75.0" step="0.1"></div>
-      <button class="btn btn-primary" onclick="saveWeight()">Save Entry</button>
-    </div>
-  </div>
+  <!-- Main App Area -->
+  <main class="main-wrap">
 
-  <!-- Exercise Modal -->
-  <div class="modal-bg" id="exModal">
-    <div class="modal-box">
-      <div class="modal-head"><h3 id="emTitle">Exercise</h3><button class="modal-x" onclick="closeModal('exModal')">✕</button></div>
-      <div style="font-size:52px;text-align:center;margin-bottom:14px;" id="emEmoji"></div>
-      <p style="color:var(--t3);font-size:14px;line-height:1.65;margin-bottom:18px;" id="emDesc"></p>
-      <div class="em-stats">
-        <div class="em-stat" style="background:rgba(139,92,246,0.07);"><div class="em-val" id="emSets" style="color:var(--v4);">-</div><div class="em-lbl">Sets</div></div>
-        <div class="em-stat" style="background:rgba(16,185,129,0.07);"><div class="em-val" id="emReps" style="color:var(--e4);">-</div><div class="em-lbl">Reps</div></div>
-        <div class="em-stat" style="background:rgba(249,115,22,0.07);"><div class="em-val" id="emCals" style="color:var(--o5);">-</div><div class="em-lbl">Calories</div></div>
+    <!-- Dashboard -->
+    <section class="app-section active" id="sec-dash">
+      <div class="bento-grid">
+        <!-- Welcome -->
+        <div class="b-card b-welcome">
+          <div class="hero-date" id="dashDate">MON, JUL 21</div>
+          <h2>Ready to crush it, <br><span class="g-text">Victor?</span></h2>
+          <p id="dashQuote">"The only bad workout is the one that didn't happen."</p>
+        </div>
+        
+        <!-- Activity Ring -->
+        <div class="b-card b-ring">
+          <div class="ring-container">
+            <svg width="140" height="140" viewBox="0 0 140 140">
+              <circle class="ring-bg" cx="70" cy="70" r="60"/>
+              <circle class="ring-prog" id="ringFill" cx="70" cy="70" r="60" stroke-dasharray="377" stroke-dashoffset="377"/>
+            </svg>
+            <div class="ring-val" id="ringPct">0%</div>
+          </div>
+          <h4>Daily Goal</h4>
+          <p>Activity & Hydration</p>
+        </div>
+        
+        <!-- Stats -->
+        <div class="b-card b-stat c-cal" onclick="nav('tools')">
+          <span class="stat-icon">🔥</span>
+          <h3 id="dCal">0</h3>
+          <p>Calories</p>
+        </div>
+        <div class="b-card b-stat c-work" onclick="nav('work')">
+          <span class="stat-icon">🏋️</span>
+          <h3 id="dWork">0</h3>
+          <p>Workouts</p>
+        </div>
+        <div class="b-card b-stat c-wat" onclick="nav('tools')">
+          <span class="stat-icon">💧</span>
+          <h3 id="dWat">0</h3>
+          <p>Water (Glasses)</p>
+        </div>
+        <div class="b-card b-stat c-str">
+          <span class="stat-icon">⚡</span>
+          <h3 id="dStr">1</h3>
+          <p>Day Streak</p>
+        </div>
+
+        <!-- Today's Workouts -->
+        <div class="b-card b-today">
+          <h4><span>Today's Plan</span> <a href="#" onclick="nav('work')">See All</a></h4>
+          <div class="today-list" id="dashToday">
+            <!-- Populated via JS -->
+          </div>
+        </div>
       </div>
-      <div id="emHow" style="font-size:13px;color:var(--t3);line-height:1.75;margin-bottom:22px;"></div>
-      <button class="btn btn-primary" id="emLogBtn" onclick="logFromModal()">✅ Log This Workout</button>
-    </div>
-  </div>
+    </section>
 
-  <!-- UPI Payment Modal -->
-  <div class="modal-bg" id="upiModal">
-    <div class="modal-box" style="padding:0;overflow:hidden;background:transparent;border:none;">
-      <div class="upi-container">
-        <button class="modal-x" onclick="closeModal('upiModal')" style="position:absolute;top:16px;right:16px;z-index:10;background:rgba(0,0,0,0.3);">✕</button>
-        <span class="upi-icon">📱</span>
-        <h3 class="upi-title" id="upiTitle">Complete Payment</h3>
-        <p class="upi-sub" id="upiSub">Scan QR or use the UPI ID below to pay</p>
+    <!-- Workouts -->
+    <section class="app-section" id="sec-work">
+      <div class="sec-head">
+        <h1>Workouts</h1>
+        <p>Explore exercises and track your sets.</p>
+      </div>
+      <div class="cat-scroll" id="catList">
+        <button class="cat-btn active" onclick="filterEx('all')">All</button>
+        <button class="cat-btn" onclick="filterEx('chest')">Chest</button>
+        <button class="cat-btn" onclick="filterEx('back')">Back</button>
+        <button class="cat-btn" onclick="filterEx('legs')">Legs</button>
+        <button class="cat-btn" onclick="filterEx('arms')">Arms</button>
+        <button class="cat-btn" onclick="filterEx('shoulders')">Shoulders</button>
+        <button class="cat-btn" onclick="filterEx('core')">Core</button>
+        <button class="cat-btn" onclick="filterEx('cardio')">Cardio</button>
+      </div>
+      <div class="w-grid" id="wGrid"></div>
+    </section>
 
-        <div id="customAmtDiv" style="display:none;margin-bottom:20px;">
-          <div class="input-group">
-            <label style="color:#00b386;text-align:left;">Enter Amount (₹)</label>
-            <input type="number" id="upiCustomAmt" placeholder="e.g. 100" style="background:rgba(0,0,0,0.2);border-color:rgba(0,179,134,0.3);color:white;font-size:18px;font-weight:bold;">
+    <!-- Tools -->
+    <section class="app-section" id="sec-tools">
+      <div class="sec-head">
+        <h1>Fitness Tools</h1>
+        <p>Calculators, timers, and trackers.</p>
+      </div>
+      <div class="t-grid">
+        
+        <div class="tool-box">
+          <h3>⏱️ Timer</h3>
+          <p class="tsub">Track rest periods</p>
+          <div class="timer-disp" id="tDisp">00:00.00</div>
+          <div class="timer-ctrls">
+            <button class="t-btn tb-start" id="tBtnStart" onclick="tStart()">▶</button>
+            <button class="t-btn tb-lap" onclick="tLap()">⏱️</button>
+            <button class="t-btn tb-stop" onclick="tReset()">◼</button>
           </div>
         </div>
 
-        <div class="upi-id-box">
-          <div>
-            <div style="font-size:11px;color:var(--t4);text-transform:uppercase;margin-bottom:2px;font-weight:700;text-align:left;">Official UPI ID</div>
-            <div class="upi-id-text" id="officialUpiId">arasu9629hf@okhdfcbank</div>
-          </div>
-          <button class="upi-copy-btn" onclick="copyUpi()">Copy ID</button>
+        <div class="tool-box">
+          <h3>💧 Water Tracker</h3>
+          <p class="tsub">Daily goal: 8 glasses</p>
+          <div style="font-size: 64px; text-align: center; margin: 20px 0; color: var(--brand-cyan);" id="wBig">0/8</div>
+          <button class="btn btn-blue" onclick="addWat()">+ Add Glass</button>
         </div>
 
-        <p style="font-size:14px;color:var(--t2);margin-bottom:24px;">Please transfer the exact amount and the premium features will be unlocked automatically within 5 minutes.</p>
+        <div class="tool-box">
+          <h3>⚖️ BMI Calculator</h3>
+          <p class="tsub">Check your body mass index</p>
+          <div class="row-2">
+            <div class="input-grp"><label>Weight (kg)</label><input type="number" id="bmiW" placeholder="75"></div>
+            <div class="input-grp"><label>Height (cm)</label><input type="number" id="bmiH" placeholder="180"></div>
+          </div>
+          <button class="btn btn-green" onclick="calcBMI()">Calculate</button>
+          <div class="res-box" id="bmiRes"></div>
+        </div>
 
-        <button class="btn btn-upi" onclick="payUpi()">Pay Now via UPI App</button>
-        <p class="upi-note">100% secure payments via HDFC Bank UPI.<br>For support, contact billing@victorfit.com</p>
+        <div class="tool-box">
+          <h3>🔥 Calorie Counter</h3>
+          <p class="tsub">Quick entry</p>
+          <div class="row-2">
+            <div class="input-grp"><label>Food</label><input type="text" id="fName" placeholder="Apple"></div>
+            <div class="input-grp"><label>Cals</label><input type="number" id="fCal" placeholder="95"></div>
+          </div>
+          <button class="btn btn-red" onclick="addFood()">Add Food</button>
+        </div>
+
       </div>
+    </section>
+
+    <!-- Progress -->
+    <section class="app-section" id="sec-prog">
+      <div class="sec-head">
+        <h1>Progress</h1>
+        <p>Your weekly stats.</p>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-box">
+          <h3>Weekly Calories</h3>
+          <div class="bars-wrap" id="cBars"></div>
+        </div>
+        <div class="chart-box">
+          <h3>Weekly Minutes</h3>
+          <div class="bars-wrap" id="mBars"></div>
+        </div>
+      </div>
+      
+      <h3>Achievements</h3>
+      <div class="ach-grid" id="achGrid"></div>
+    </section>
+
+    <!-- Premium -->
+    <section class="app-section" id="sec-pro">
+      <div class="sec-head" style="text-align: center;">
+        <h1>VictorFit <span class="g-text">Pro</span></h1>
+        <p>Unlock the ultimate fitness experience.</p>
+      </div>
+      
+      <div class="premium-grid">
+        <div class="plan-c">
+          <div class="plan-icon">🥉</div>
+          <h3 class="plan-name">Basic</h3>
+          <div class="plan-price">Free</div>
+          <ul class="plan-features">
+            <li><i>✓</i> Core workouts</li>
+            <li><i>✓</i> Basic tracking</li>
+          </ul>
+          <button class="btn" style="background: rgba(255,255,255,0.1); color: white;" onclick="msg('You are on Free plan')">Current</button>
+        </div>
+        
+        <div class="plan-c pro">
+          <div class="plan-icon">💎</div>
+          <h3 class="plan-name">Pro</h3>
+          <div class="plan-price">₹499<span>/mo</span></div>
+          <ul class="plan-features">
+            <li><i>✓</i> Everything in Basic</li>
+            <li><i>✓</i> AI Generation</li>
+            <li><i>✓</i> Ad-Free</li>
+          </ul>
+          <button class="btn btn-grad" onclick="openUpi('₹499', 'VictorFit Pro')">Upgrade Pro</button>
+        </div>
+        
+        <div class="plan-c">
+          <div class="plan-icon">👑</div>
+          <h3 class="plan-name">Elite</h3>
+          <div class="plan-price">₹4999<span>/yr</span></div>
+          <ul class="plan-features">
+            <li><i>✓</i> Everything in Pro</li>
+            <li><i>✓</i> 1-on-1 Coaching</li>
+            <li><i>✓</i> Diet Plans</li>
+          </ul>
+          <button class="btn btn-blue" onclick="openUpi('₹4999', 'VictorFit Elite')">Get Elite</button>
+        </div>
+      </div>
+
+      <div class="donate-box">
+        <h2>Support the App ❤️</h2>
+        <p style="color: var(--c-text-sec); margin-bottom: 20px;">Buy us a protein shake to keep the servers running.</p>
+        <div class="donate-grid">
+          <div class="don-amt" onclick="openUpi('₹50', 'Donate Small')"><h4>₹50</h4><p>Small</p></div>
+          <div class="don-amt" onclick="openUpi('₹150', 'Donate Med')"><h4>₹150</h4><p>Medium</p></div>
+          <div class="don-amt" onclick="openUpi('₹500', 'Donate Large')"><h4>₹500</h4><p>Large</p></div>
+          <div class="don-amt" onclick="openUpi('Custom', 'Donate Custom')"><h4>+</h4><p>Custom</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Profile -->
+    <section class="app-section" id="sec-prof">
+      <div class="sec-head">
+        <h1>Profile</h1>
+      </div>
+      <div class="prof-hero">
+        <div class="prof-av">🏆</div>
+        <div class="prof-info">
+          <h2>Victor Champion</h2>
+          <p>victor@victorfit.com</p>
+        </div>
+      </div>
+      <div class="prof-stats">
+        <div class="ps-box"><h3 id="pW">0</h3><p>Workouts</p></div>
+        <div class="ps-box"><h3 id="pC" style="color: var(--brand-red);">0</h3><p>Cals</p></div>
+        <div class="ps-box"><h3 id="pS" style="color: var(--brand-orange);">0</h3><p>Streak</p></div>
+        <div class="ps-box"><h3 id="pM" style="color: var(--brand-purple);">0</h3><p>Minutes</p></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mob-nav">
+    <a href="#" class="active" data-section="dash" onclick="nav('dash')"><span>📊</span>Dash</a>
+    <a href="#" data-section="work" onclick="nav('work')"><span>🏋️</span>Work</a>
+    <a href="#" data-section="tools" onclick="nav('tools')"><span>🧰</span>Tools</a>
+    <a href="#" data-section="pro" onclick="nav('pro')"><span>👑</span>Pro</a>
+    <a href="#" data-section="prof" onclick="nav('prof')"><span>👤</span>Me</a>
+  </nav>
+
+  <!-- Modals -->
+  <div class="modal-overlay" id="exModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="cls('exModal')">✕</button>
+      <div style="font-size: 64px; text-align: center;" id="emIco">🏋️</div>
+      <h2 id="emName" style="text-align: center; margin: 12px 0;">Name</h2>
+      <p id="emDesc" style="color: var(--c-text-sec); margin-bottom: 24px; text-align: center;"></p>
+      
+      <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+        <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 16px; border-radius: var(--r-md); text-align: center;">
+          <h3 id="emSet" style="color: var(--brand-blue);">3</h3><p style="font-size: 12px; color: var(--c-text-sec);">Sets</p>
+        </div>
+        <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 16px; border-radius: var(--r-md); text-align: center;">
+          <h3 id="emRep" style="color: var(--brand-green);">10</h3><p style="font-size: 12px; color: var(--c-text-sec);">Reps</p>
+        </div>
+        <div style="flex: 1; background: rgba(255,255,255,0.05); padding: 16px; border-radius: var(--r-md); text-align: center;">
+          <h3 id="emCal" style="color: var(--brand-red);">100</h3><p style="font-size: 12px; color: var(--c-text-sec);">Cals</p>
+        </div>
+      </div>
+      
+      <button class="btn btn-blue" onclick="logEx()">Complete Workout</button>
     </div>
   </div>
 
-  <!-- Toast -->
-  <div class="toast-wrap" id="toastWrap"></div>
+  <div class="modal-overlay" id="upiModal">
+    <div class="modal-content upi-box">
+      <button class="modal-close" onclick="cls('upiModal')">✕</button>
+      <h2>Secure Payment</h2>
+      <p class="sub" id="upiDesc">Pay via UPI</p>
+      
+      <div id="cstAmt" style="display: none; margin-bottom: 20px;">
+        <input type="number" id="upiInp" placeholder="Enter Amount (₹)" style="width: 100%; padding: 16px; background: rgba(255,255,255,0.1); border: none; border-radius: var(--r-md); color: white; font-size: 18px; text-align: center; font-weight: bold;">
+      </div>
+
+      <div class="upi-id-show">
+        <p>UPI ID</p>
+        <h3>arasu9629hf@okhdfcbank</h3>
+        <button class="btn" style="background: rgba(255,255,255,0.1); color: white; padding: 10px;" onclick="copyUpi()">Copy ID</button>
+      </div>
+
+      <button class="btn btn-green" onclick="doPay()">Pay Now via UPI App</button>
+    </div>
+  </div>
+
+  <div id="toast">Message</div>
+
+  <!-- Firebase Initialization -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    
+    const firebaseConfig = {
+      apiKey: "AIzaSyChdTM4E-RI8GK_yQ6zSMJxwLrctIAJ0TY",
+      authDomain: "victorfit-fe8d7.firebaseapp.com",
+      projectId: "victorfit-fe8d7",
+      storageBucket: "victorfit-fe8d7.firebasestorage.app",
+      messagingSenderId: "384148453401",
+      appId: "1:384148453401:web:e414a933b3f41786159288"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+  </script>
 
   <script src="script.js"></script>
 </body>
