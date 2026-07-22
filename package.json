@@ -1,0 +1,24 @@
+{
+  "name": "victorfit",
+  "version": "1.0.0",
+  "description": "> **Premium Fitness & Daily Gym Tracker** — Track workouts, count calories, monitor progress, and achieve your fitness goals.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Victorezhil310/VictorFit.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Victorezhil310/VictorFit/issues"
+  },
+  "homepage": "https://github.com/Victorezhil310/VictorFit#readme",
+  "dependencies": {
+    "firebase": "^12.16.0"
+  }
+}
