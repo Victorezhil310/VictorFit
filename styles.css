@@ -1362,3 +1362,95 @@ body {
   .ad-cyber-banner { flex-direction: column; text-align: center; }
   .btn-cyber-ad { margin-left: 0; width: 100%; }
 }
+
+/* ============================================
+   NEW: V7.0 OVERHAUL ADDITIONS
+   ============================================ */
+
+/* Top Donate Banner */
+.top-donate-banner {
+  background: var(--grad-neon-pink);
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  z-index: 5000;
+  box-shadow: var(--shadow-glow-pink);
+}
+.btn-sm-donate {
+  background: white;
+  color: #ff007f;
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  font-size: 11px;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: transform 0.2s;
+}
+.btn-sm-donate:hover { transform: scale(1.05); }
+
+/* Birthday Overlay */
+.birthday-celebration-box {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+.birthday-celebration-box.active {
+  opacity: 1;
+  pointer-events: auto;
+  animation: bdayPop 0.8s ease-out;
+}
+.bday-cake {
+  font-size: 120px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 40px rgba(255, 0, 127, 0.6));
+}
+.bday-title {
+  font-size: 52px;
+  font-family: var(--font-display);
+  font-weight: 900;
+  background: var(--grad-cyber);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 10px;
+}
+.bday-sub {
+  font-size: 20px;
+  color: var(--c-text-secondary);
+}
+.balloon {
+  position: absolute;
+  font-size: 80px;
+  bottom: -100px;
+  animation: floatUp 4s ease-in infinite;
+}
+.balloon-1 { left: 20%; animation-delay: 0s; }
+.balloon-2 { left: 50%; animation-delay: 1.5s; }
+.balloon-3 { left: 80%; animation-delay: 0.8s; }
+
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(-100vh) rotate(20deg); opacity: 0; }
+}
+@keyframes bdayPop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}

@@ -16,7 +16,26 @@ const initialAppState = {
   lastDate: new Date().toDateString(),
   history: [],
   weeklyCalories: [0, 0, 0, 0, 0, 0, 0],
-  weeklyMinutes: [0, 0, 0, 0, 0, 0, 0]
+  weeklyMinutes: [0, 0, 0, 0, 0, 0, 0],
+  userName: 'Victor Champion',
+  userAge: 25,
+  userBirthday: '2000-01-01',
+  lang: 'en'
+};
+
+const I18N = {
+  en: {
+    dash: "📊 Dashboard", work: "🏋️ Workouts", tool: "🧰 Tools", prog: "📈 Progress", pro: "👑 Premium", prof: "👤 Profile",
+    hero: "Welcome back, ", streak: "Day Streak", today: "⚡ Today's Routine"
+  },
+  hi: {
+    dash: "📊 डैशबोर्ड", work: "🏋️ व्यायाम", tool: "🧰 उपकरण", prog: "📈 प्रगति", pro: "👑 प्रीमियम", prof: "👤 प्रोफ़ाइल",
+    hero: "वापसी पर स्वागत है, ", streak: "दिन की लकीर", today: "⚡ आज की दिनचर्या"
+  },
+  es: {
+    dash: "📊 Panel", work: "🏋️ Entrenamientos", tool: "🧰 Herramientas", prog: "📈 Progreso", pro: "👑 Premium", prof: "👤 Perfil",
+    hero: "Bienvenido de nuevo, ", streak: "Días seguidos", today: "⚡ Rutina de hoy"
+  }
 };
 
 function loadState() {
@@ -105,6 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAchievements();
   updateProfileStats();
   checkDailyStreak();
+  applyLanguage();
+  checkBirthday();
 });
 
 function initHeaderScroll() {
@@ -135,7 +156,7 @@ function initDashboard() {
   const hours = now.getHours();
   const greetingEl = document.getElementById('greetingTime');
   if (greetingEl) {
-    greetingEl.textContent = hours < 12 ? 'Good Morning!' : hours < 17 ? 'Good Afternoon!' : 'Good Evening!';
+    greetingEl.textContent = hours < 12 ? 'Good Morning, ' + appState.userName + '!' : hours < 17 ? 'Good Afternoon, ' + appState.userName + '!' : 'Good Evening, ' + appState.userName + '!';
   }
 
   const dateEl = document.getElementById('heroCurrentDate');
@@ -487,6 +508,50 @@ function updateProfileStats() {
   document.getElementById('profTotalCalories').textContent = appState.totalCalories.toLocaleString();
   document.getElementById('profBestStreak').textContent = appState.bestStreak;
   document.getElementById('profTotalMinutes').textContent = appState.totalMinutes;
+  
+  if (document.getElementById('profNameInput')) {
+    document.getElementById('profNameInput').value = appState.userName || '';
+    document.getElementById('profAgeInput').value = appState.userAge || '';
+    document.getElementById('profBdayInput').value = appState.userBirthday || '';
+    document.getElementById('langSelect').value = appState.lang || 'en';
+  }
+}
+
+function saveProfile() {
+  appState.userName = document.getElementById('profNameInput').value || 'Athlete';
+  appState.userAge = document.getElementById('profAgeInput').value;
+  appState.userBirthday = document.getElementById('profBdayInput').value;
+  
+  const newLang = document.getElementById('langSelect').value;
+  appState.lang = newLang;
+  
+  saveState();
+  applyLanguage();
+  initDashboard();
+  checkBirthday();
+  triggerToast('✅ Profile & Settings Saved!');
+}
+
+function applyLanguage() {
+  const dict = I18N[appState.lang] || I18N['en'];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key]) el.textContent = dict[key];
+  });
+}
+
+function checkBirthday() {
+  if (!appState.userBirthday) return;
+  const today = new Date();
+  const bday = new Date(appState.userBirthday);
+  
+  if (today.getMonth() === bday.getMonth() && today.getDate() === bday.getDate()) {
+    const bdayBox = document.getElementById('birthdayCelebrationBox');
+    if (bdayBox) bdayBox.classList.add('active');
+  } else {
+    const bdayBox = document.getElementById('birthdayCelebrationBox');
+    if (bdayBox) bdayBox.classList.remove('active');
+  }
 }
 
 function checkDailyStreak() {

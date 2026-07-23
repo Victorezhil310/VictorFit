@@ -30,6 +30,12 @@
   </div>
   <div class="grid-overlay" aria-hidden="true"></div>
 
+  <!-- Top Donation Banner -->
+  <div class="top-donate-banner">
+    <span>❤️ Support VictorFit Development! Donate directly via UPI: <strong>arasu9629hf@okhdfcbank</strong></span>
+    <button class="btn-sm-donate" onclick="openUpiModal('Custom', 'Support Development')">Donate Now</button>
+  </div>
+
   <!-- Cyber Desktop Header -->
   <header class="cyber-header" id="cyberHeader">
     <a href="#" class="brand-logo" onclick="switchView('dashboard'); return false;">
@@ -38,12 +44,12 @@
     </a>
 
     <ul class="cyber-nav">
-      <li class="cyber-nav-item"><a href="#" class="active" data-view="dashboard" onclick="switchView('dashboard'); return false;">📊 Dashboard</a></li>
-      <li class="cyber-nav-item"><a href="#" data-view="workouts" onclick="switchView('workouts'); return false;">🏋️ Workouts</a></li>
-      <li class="cyber-nav-item"><a href="#" data-view="tools" onclick="switchView('tools'); return false;">🧰 Tools</a></li>
-      <li class="cyber-nav-item"><a href="#" data-view="progress" onclick="switchView('progress'); return false;">📈 Progress</a></li>
-      <li class="cyber-nav-item"><a href="#" data-view="premium" onclick="switchView('premium'); return false;">👑 Premium</a></li>
-      <li class="cyber-nav-item"><a href="#" data-view="profile" onclick="switchView('profile'); return false;">👤 Profile</a></li>
+      <li class="cyber-nav-item"><a href="#" class="active" data-view="dashboard" data-i18n="dash" onclick="switchView('dashboard'); return false;">📊 Dashboard</a></li>
+      <li class="cyber-nav-item"><a href="#" data-view="workouts" data-i18n="work" onclick="switchView('workouts'); return false;">🏋️ Workouts</a></li>
+      <li class="cyber-nav-item"><a href="#" data-view="tools" data-i18n="tool" onclick="switchView('tools'); return false;">🧰 Tools</a></li>
+      <li class="cyber-nav-item"><a href="#" data-view="progress" data-i18n="prog" onclick="switchView('progress'); return false;">📈 Progress</a></li>
+      <li class="cyber-nav-item"><a href="#" data-view="premium" data-i18n="pro" onclick="switchView('premium'); return false;">👑 Premium</a></li>
+      <li class="cyber-nav-item"><a href="#" data-view="profile" data-i18n="prof" onclick="switchView('profile'); return false;">👤 Profile</a></li>
     </ul>
 
     <div class="status-pill">
@@ -392,11 +398,41 @@
         <div style="width: 90px; height: 90px; border-radius: 50%; background: var(--grad-cyber); display: flex; align-items: center; justify-content: center; font-size: 42px; box-shadow: var(--shadow-glow-cyan);">
           🏆
         </div>
-        <div>
+        <div style="flex: 1;">
           <h2 style="font-size: 28px; font-weight: 800;">Victor Champion</h2>
           <p style="color: var(--c-text-secondary); font-size: 15px;">victor@victorfit.com</p>
           <span style="font-size: 12px; color: var(--neon-emerald); font-weight: 700; text-transform: uppercase;">Active Athlete</span>
         </div>
+      </div>
+
+      <!-- Edit Profile Section -->
+      <div class="bento-card" style="margin-bottom: 24px;">
+        <h3 style="margin-bottom: 16px;">⚙️ Settings & Preferences</h3>
+        <div class="dual-inputs" style="margin-bottom: 16px;">
+          <div class="cyber-input-group">
+            <label>Name</label>
+            <input type="text" id="profNameInput" placeholder="Your Name">
+          </div>
+          <div class="cyber-input-group">
+            <label>Age</label>
+            <input type="number" id="profAgeInput" placeholder="25">
+          </div>
+        </div>
+        <div class="dual-inputs" style="margin-bottom: 16px;">
+          <div class="cyber-input-group">
+            <label>Birthday (Triggers Celebration)</label>
+            <input type="date" id="profBdayInput">
+          </div>
+          <div class="cyber-input-group">
+            <label>Language</label>
+            <select id="langSelect" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.5); border: 1px solid var(--bg-card-border); color: white; border-radius: var(--radius-sm);">
+              <option value="en">English</option>
+              <option value="hi">हिंदी (Hindi)</option>
+              <option value="es">Español (Spanish)</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn-cyber-primary" onclick="saveProfile()">Save Profile</button>
       </div>
 
       <div class="bento-layout">
@@ -425,25 +461,35 @@
   <nav class="mobile-bottom-dock">
     <a href="#" class="dock-item active" data-view="dashboard" onclick="switchView('dashboard'); return false;">
       <span class="dock-icon">📊</span>
-      <span>Home</span>
+      <span data-i18n="dash">Home</span>
     </a>
     <a href="#" class="dock-item" data-view="workouts" onclick="switchView('workouts'); return false;">
       <span class="dock-icon">🏋️</span>
-      <span>Workouts</span>
+      <span data-i18n="work">Workouts</span>
     </a>
     <a href="#" class="dock-item" data-view="tools" onclick="switchView('tools'); return false;">
       <span class="dock-icon">🧰</span>
-      <span>Tools</span>
+      <span data-i18n="tool">Tools</span>
     </a>
     <a href="#" class="dock-item" data-view="premium" onclick="switchView('premium'); return false;">
       <span class="dock-icon">👑</span>
-      <span>Pro</span>
+      <span data-i18n="pro">Pro</span>
     </a>
     <a href="#" class="dock-item" data-view="profile" onclick="switchView('profile'); return false;">
       <span class="dock-icon">👤</span>
-      <span>Profile</span>
+      <span data-i18n="prof">Profile</span>
     </a>
   </nav>
+
+  <!-- Birthday Celebration Overlay -->
+  <div class="birthday-celebration-box" id="birthdayCelebrationBox">
+    <div class="balloon balloon-1">🎈</div>
+    <div class="balloon balloon-2">🎈</div>
+    <div class="balloon balloon-3">🎈</div>
+    <div class="bday-cake">🎂</div>
+    <h2 class="bday-title">Happy Birthday!</h2>
+    <p class="bday-sub">Have an amazing workout today, Champion!</p>
+  </div>
 
   <!-- ================= MODALS ================= -->
 
