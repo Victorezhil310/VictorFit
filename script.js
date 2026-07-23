@@ -14,8 +14,9 @@ const initialAppState = {
   totalMinutes: 0,
   bestStreak: 1,
   lastDate: new Date().toDateString(),
-  weeklyCalories: [350, 520, 0, 640, 480, 0, 0],
-  weeklyMinutes: [45, 60, 0, 75, 50, 0, 0]
+  history: [],
+  weeklyCalories: [0, 0, 0, 0, 0, 0, 0],
+  weeklyMinutes: [0, 0, 0, 0, 0, 0, 0]
 };
 
 function loadState() {
@@ -399,12 +400,47 @@ function renderFoodList() {
 // ================= PROGRESS CONTROLLER =================
 function renderCharts() {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const maxCals = Math.max(...appState.weeklyCalories, 100);
-  const maxMins = Math.max(...appState.weeklyMinutes, 10);
+  
+  // Build this week's data dynamically from history + today's live data
+  let currentWeeklyCals = [0, 0, 0, 0, 0, 0, 0];
+  let currentWeeklyMins = [0, 0, 0, 0, 0, 0, 0];
+  
+  const today = new Date();
+  // We look back at the past 7 days to populate the chart based on the day of week
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const dayStr = d.toDateString();
+    const dayIndex = d.getDay();
+    
+    if (i === 0) {
+      // Today live
+      const todayLogs = appState.logs.filter(l => l.date === dayStr);
+      let cals = 0;
+      todayLogs.forEach(l => {
+        const ex = EXERCISES_DB.find(e => e.id === l.id);
+        if(ex) cals += ex.cals;
+      });
+      currentWeeklyCals[dayIndex] = cals;
+      currentWeeklyMins[dayIndex] = todayLogs.length * 15;
+    } else {
+      // From history
+      if (appState.history) {
+        const histItem = appState.history.find(h => h.date === dayStr);
+        if (histItem) {
+          currentWeeklyCals[dayIndex] = histItem.calories || 0;
+          currentWeeklyMins[dayIndex] = histItem.minutes || 0;
+        }
+      }
+    }
+  }
+
+  const maxCals = Math.max(...currentWeeklyCals, 100);
+  const maxMins = Math.max(...currentWeeklyMins, 10);
 
   const calChart = document.getElementById('chartCaloriesContainer');
   if (calChart) {
-    calChart.innerHTML = appState.weeklyCalories.map((val, idx) => `
+    calChart.innerHTML = currentWeeklyCals.map((val, idx) => `
       <div class="bar-column-item">
         <div class="bar-pill-graphic bar-cal-gradient" style="height: ${Math.max((val / maxCals) * 100, 6)}%;"></div>
         <div class="bar-day-label">${days[idx]}</div>
@@ -414,7 +450,7 @@ function renderCharts() {
 
   const minChart = document.getElementById('chartMinutesContainer');
   if (minChart) {
-    minChart.innerHTML = appState.weeklyMinutes.map((val, idx) => `
+    minChart.innerHTML = currentWeeklyMins.map((val, idx) => `
       <div class="bar-column-item">
         <div class="bar-pill-graphic bar-work-gradient" style="height: ${Math.max((val / maxMins) * 100, 6)}%;"></div>
         <div class="bar-day-label">${days[idx]}</div>
@@ -455,13 +491,37 @@ function updateProfileStats() {
 
 function checkDailyStreak() {
   const today = new Date().toDateString();
+  if (!appState.history) appState.history = []; // Migration for old state
+  
   if (appState.lastDate !== today) {
     const diffDays = Math.floor((new Date(today) - new Date(appState.lastDate)) / 86400000);
     appState.streak = diffDays === 1 ? appState.streak + 1 : diffDays > 1 ? 1 : appState.streak;
-    appState.lastDate = today;
+    
     if (appState.streak > appState.bestStreak) {
       appState.bestStreak = appState.streak;
     }
+
+    // Save previous day's snapshot to history
+    const prevDayLogs = appState.logs.filter(l => l.date === appState.lastDate);
+    let prevCals = 0;
+    prevDayLogs.forEach(l => {
+      const ex = EXERCISES_DB.find(e => e.id === l.id);
+      if(ex) prevCals += ex.cals;
+    });
+
+    appState.history.push({
+      date: appState.lastDate,
+      calories: prevCals,
+      minutes: prevDayLogs.length * 15,
+      workouts: prevDayLogs.length,
+      water: appState.water
+    });
+
+    // Reset daily trackers
+    appState.water = 0;
+    appState.foods = [];
+    appState.lastDate = today;
+    
     saveState();
   }
 }

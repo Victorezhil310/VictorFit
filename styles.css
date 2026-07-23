@@ -5,31 +5,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap');
 
 :root {
-  /* Color Palette - Cyber Violet & Electric Cyan */
-  --bg-dark: #060713;
-  --bg-surface: rgba(18, 20, 42, 0.65);
-  --bg-surface-hover: rgba(28, 32, 64, 0.8);
-  --bg-card-glass: rgba(255, 255, 255, 0.03);
-  --bg-card-border: rgba(255, 255, 255, 0.08);
-  --bg-card-border-glow: rgba(0, 242, 254, 0.3);
+  /* Color Palette - Modern World Obsidian */
+  --bg-dark: #000000;
+  --bg-surface: #09090b;
+  --bg-surface-hover: #18181b;
+  --bg-card-glass: rgba(255, 255, 255, 0.02);
+  --bg-card-border: rgba(255, 255, 255, 0.1);
+  --bg-card-border-glow: rgba(255, 255, 255, 0.2);
   
   --c-text-primary: #ffffff;
-  --c-text-secondary: #94a3b8;
-  --c-text-muted: #64748b;
+  --c-text-secondary: #a1a1aa;
+  --c-text-muted: #71717a;
   
-  --neon-cyan: #00f2fe;
-  --neon-purple: #7928ca;
-  --neon-magenta: #ff007f;
-  --neon-emerald: #00f5d4;
-  --neon-amber: #ffb703;
-  --neon-rose: #ff4d6d;
-  --neon-blue: #3a86ef;
+  --neon-cyan: #38bdf8;
+  --neon-purple: #c084fc;
+  --neon-magenta: #f472b6;
+  --neon-emerald: #34d399;
+  --neon-amber: #fbbf24;
+  --neon-rose: #fb7185;
+  --neon-blue: #60a5fa;
 
-  --grad-cyber: linear-gradient(135deg, #00f2fe 0%, #4facfe 50%, #7928ca 100%);
-  --grad-neon-pink: linear-gradient(135deg, #ff007f 0%, #7928ca 100%);
-  --grad-emerald: linear-gradient(135deg, #00f5d4 0%, #00b4d8 100%);
-  --grad-fire: linear-gradient(135deg, #ff9e00 0%, #ff0054 100%);
-  --grad-dark-card: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --grad-cyber: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+  --grad-neon-pink: linear-gradient(135deg, #f472b6 0%, #c084fc 100%);
+  --grad-emerald: linear-gradient(135deg, #34d399 0%, #38bdf8 100%);
+  --grad-fire: linear-gradient(135deg, #fbbf24 0%, #fb7185 100%);
+  --grad-dark-card: linear-gradient(145deg, #09090b 0%, #000000 100%);
 
   --radius-xs: 8px;
   --radius-sm: 14px;
@@ -37,10 +37,10 @@
   --radius-lg: 28px;
   --radius-full: 9999px;
 
-  --shadow-glow-cyan: 0 0 25px rgba(0, 242, 254, 0.25);
-  --shadow-glow-purple: 0 0 25px rgba(121, 40, 202, 0.3);
-  --shadow-glow-pink: 0 0 25px rgba(255, 0, 127, 0.3);
-  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+  --shadow-glow-cyan: 0 0 30px rgba(255, 255, 255, 0.1);
+  --shadow-glow-purple: 0 0 30px rgba(192, 132, 252, 0.1);
+  --shadow-glow-pink: 0 0 30px rgba(244, 114, 182, 0.1);
+  --shadow-card: 0 20px 40px -15px rgba(0, 0, 0, 0.9);
 
   --font-main: 'Plus Jakarta Sans', sans-serif;
   --font-display: 'Outfit', sans-serif;
@@ -81,21 +81,21 @@ body {
   pointer-events: none;
   z-index: -2;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 0%, #0d1130 0%, #060713 70%);
+  background: #000000;
 }
 
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px);
-  opacity: 0.45;
+  filter: blur(140px);
+  opacity: 0.3;
   animation: orbFloat 22s infinite alternate ease-in-out;
 }
 
-.orb-1 { width: 500px; height: 500px; background: var(--neon-purple); top: -100px; left: -100px; }
-.orb-2 { width: 450px; height: 450px; background: var(--neon-cyan); top: 30%; right: -150px; animation-delay: -5s; }
-.orb-3 { width: 400px; height: 400px; background: var(--neon-magenta); bottom: 10%; left: -100px; animation-delay: -10s; }
-.orb-4 { width: 350px; height: 350px; background: var(--neon-emerald); bottom: -100px; right: 20%; animation-delay: -15s; }
+.orb-1 { width: 500px; height: 500px; background: rgba(255,255,255,0.08); top: -100px; left: -100px; }
+.orb-2 { width: 450px; height: 450px; background: rgba(56,189,248,0.1); top: 30%; right: -150px; animation-delay: -5s; }
+.orb-3 { width: 400px; height: 400px; background: rgba(192,132,252,0.1); bottom: 10%; left: -100px; animation-delay: -10s; }
+.orb-4 { width: 350px; height: 350px; background: rgba(52,211,153,0.1); bottom: -100px; right: 20%; animation-delay: -15s; }
 
 @keyframes orbFloat {
   0% { transform: translate(0, 0) scale(1); }
@@ -126,7 +126,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(6, 7, 19, 0.75);
+  background: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(25px);
   -webkit-backdrop-filter: blur(25px);
   border-bottom: 1px solid var(--bg-card-border);
@@ -136,9 +136,9 @@ body {
 
 .cyber-header.scrolled {
   height: 70px;
-  background: rgba(6, 7, 19, 0.92);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid rgba(0, 242, 254, 0.15);
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .brand-logo {
@@ -339,8 +339,8 @@ body {
 .bento-hero {
   grid-column: span 2;
   grid-row: span 2;
-  background: linear-gradient(135deg, rgba(121, 40, 202, 0.25) 0%, rgba(0, 242, 254, 0.15) 100%), var(--bg-surface);
-  border-color: rgba(0, 242, 254, 0.2);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%), var(--bg-surface);
+  border-color: rgba(255, 255, 255, 0.15);
   justify-content: space-between;
 }
 
@@ -569,8 +569,8 @@ body {
 /* Ad Banner Card */
 .ad-cyber-banner {
   grid-column: span 4;
-  background: linear-gradient(90deg, rgba(0, 242, 254, 0.15), rgba(121, 40, 202, 0.2)), var(--bg-surface);
-  border-color: rgba(0, 242, 254, 0.3);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)), var(--bg-surface);
+  border-color: rgba(255, 255, 255, 0.2);
   flex-direction: row;
   align-items: center;
   gap: 20px;
