@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+   <meta name="monetag" content="3f6be36751a4cf0a51c0ac9725749c72">
+   <script>
+      if ('serviceWorker' in navigator) {
+         window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+               .then(reg => console.log('Monetag service worker registered', reg))
+               .catch(err => console.error('Monetag service worker registration failed', err));
+         });
+      }
+   </script>
    <meta name="google-site-verification" content="ijSc_2K6czDger6eb54oduhKaFzuTNsrj_B52BrEQd8" />
    <meta name="google-site-verification" content="BudybMxfN5a5SKrn_l1yOPt7QiytQzidpZZFWbcNgWk" />
    <meta name="google-site-verification" content="google9b3c772b30ea79bb" />
