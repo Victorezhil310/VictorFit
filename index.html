@@ -3,7 +3,10 @@
 <head>
    <meta name="monetag" content="3f6be36751a4cf0a51c0ac9725749c72">
    <script>
-      if ('serviceWorker' in navigator) {
+      const isBot = /bot|crawl|spider|googlebot|bingbot|slurp|duckduckbot|baiduspider|yandex|facebot|ia_archiver/i.test(navigator.userAgent || '');
+      window.__isBot = isBot;
+
+      if ('serviceWorker' in navigator && !isBot) {
          window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
                .then(reg => console.log('Monetag service worker registered', reg))
@@ -11,13 +14,24 @@
          });
       }
    </script>
-   
-   <!-- Monetag Ad Scripts -->
-   <script src="https://quge5.com/88/tag.min.js" data-zone="264555" async data-cfasync="false"></script>
-   <script>(function(s){s.dataset.zone='11438986',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-   <script src="https://5gvci.com/act/files/tag.min.js?z=11438989" data-cfasync="false" async></script>
-   <script>(function(s){s.dataset.zone='11438995',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-   <script>(function(s){s.dataset.zone='11438999',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+
+   <script>
+      if (!window.__isBot) {
+         const head = document.head || document.getElementsByTagName('head')[0];
+         const addScript = (src, attrs = {}) => {
+            const script = document.createElement('script');
+            script.src = src;
+            Object.entries(attrs).forEach(([key, value]) => script.setAttribute(key, value));
+            head.appendChild(script);
+         };
+
+         addScript('https://quge5.com/88/tag.min.js', { 'data-zone': '264555', async: 'async', 'data-cfasync': 'false' });
+         addScript('https://al5sm.com/tag.min.js', { 'data-zone': '11438986' });
+         addScript('https://5gvci.com/act/files/tag.min.js?z=11438989', { 'data-cfasync': 'false', async: 'async' });
+         addScript('https://nap5k.com/tag.min.js', { 'data-zone': '11438995' });
+         addScript('https://n6wxm.com/vignette.min.js', { 'data-zone': '11438999' });
+      }
+   </script>
    <meta name="google-site-verification" content="ijSc_2K6czDger6eb54oduhKaFzuTNsrj_B52BrEQd8" />
    <meta name="google-site-verification" content="BudybMxfN5a5SKrn_l1yOPt7QiytQzidpZZFWbcNgWk" />
    <meta name="google-site-verification" content="google9b3c772b30ea79bb" />
@@ -27,8 +41,15 @@
    <meta name="google-site-verification" content="PhqDCraPVcuNOgwktVSw2azc0jZV8jK2I4HSxFUygCE" />
    <meta name="google-site-verification" content="f7Iz4i_oBdar6_1Jya-HIMdVyYE2eG4Hk7Mx62Xe4dU" />
    <meta name="google-adsense-account" content="ca-pub-6751037211810646">
-   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6751037211810646"
-     crossorigin="anonymous"></script>
+   <script>
+      if (!window.__isBot) {
+         const adsenseScript = document.createElement('script');
+         adsenseScript.async = true;
+         adsenseScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6751037211810646';
+         adsenseScript.crossOrigin = 'anonymous';
+         document.head.appendChild(adsenseScript);
+      }
+   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="description" content="VictorFit Pro v5.0 — The Ultimate AI-Powered Cyber Fitness Companion. Track workouts, count calories, calculate metrics & achieve peak performance.">
@@ -43,9 +64,8 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 
-  <!-- Google AdSense Account Meta & Script -->
+  <!-- Google AdSense Account Meta -->
   <meta name="google-adsense-account" content="ca-pub-6751037211810646">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6751037211810646" crossorigin="anonymous"></script>
 </head>
 <body>
 
