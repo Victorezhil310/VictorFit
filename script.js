@@ -678,3 +678,306 @@ function triggerToast(message) {
     setTimeout(() => toast.remove(), 300);
   }, 3200);
 }
+
+
+/* ============================================
+   3D ONLINE CALCULATOR LOGIC & ENGINE
+   ============================================ */
+
+let calcExpr = '';
+let calcMemoryVal = 0;
+let calcHistoryStack = [];
+let calcAudioEnabled = true;
+let calcCurrentTheme = 'cyan';
+let audioCtx = null;
+
+function init3DCalculator() {
+  const calcBody = document.getElementById('calc3dBody');
+  const stage = document.getElementById('stage3d');
+  if (!calcBody || !stage) return;
+
+  // 3D Mouse Parallax Tilt
+  stage.addEventListener('mousemove', (e) => {
+    const rect = stage.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    const rotX = (-y / rect.height) * 16;
+    const rotY = (x / rect.width) * 16;
+    calcBody.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
+  });
+
+  stage.addEventListener('mouseleave', () => {
+    calcBody.style.transform = 'rotateX(0deg) rotateY(0deg)';
+  });
+
+  // Physical Keyboard Support
+  window.addEventListener('keydown', (e) => {
+    const activeSec = document.querySelector('.view-section.active');
+    if (!activeSec || activeSec.id !== 'view-calculator') return;
+
+    if (e.key >= '0' && e.key <= '9') calcAction(e.key);
+    else if (['+', '-', '*', '/', '.', '(', ')'].includes(e.key)) calcAction(e.key);
+    else if (e.key === 'Enter') { e.preventDefault(); calcAction('='); }
+    else if (e.key === 'Backspace') calcAction('DEL');
+    else if (e.key === 'Escape') calcAction('AC');
+  });
+}
+
+function playCyberClick() {
+  if (!calcAudioEnabled) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(200, audioCtx.currentTime + 0.05);
+
+    gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.05);
+  } catch (err) {}
+}
+
+function calcAction(val) {
+  playCyberClick();
+  const screenMain = document.getElementById('calcScreenMain');
+  const screenSub = document.getElementById('calcScreenSub');
+  if (!screenMain || !screenSub) return;
+
+  if (val === 'AC') {
+    calcExpr = '';
+    screenMain.textContent = '0';
+    screenSub.textContent = 'Ans = 0';
+  } else if (val === 'DEL') {
+    calcExpr = calcExpr.slice(0, -1);
+    screenMain.textContent = calcExpr || '0';
+  } else if (val === '=') {
+    if (!calcExpr) return;
+    try {
+      // Safe math parsing
+      let sanitized = calcExpr
+        .replace(/×/g, '*')
+        .replace(/÷/g, '/')
+        .replace(/π/g, 'Math.PI')
+        .replace(/sin\(/g, 'Math.sin(')
+        .replace(/cos\(/g, 'Math.cos(')
+        .replace(/tan\(/g, 'Math.tan(')
+        .replace(/log\(/g, 'Math.log10(')
+        .replace(/ln\(/g, 'Math.log(')
+        .replace(/√\(/g, 'Math.sqrt(');
+
+      let result = Function('"use strict"; return (' + sanitized + ')')();
+      if (typeof result === 'number' && !isNaN(result)) {
+        if (!Number.isInteger(result)) result = parseFloat(result.toFixed(6));
+        screenSub.textContent = calcExpr + ' =';
+        screenMain.textContent = result.toString();
+        
+        // Add to history
+        calcHistoryStack.unshift({ eq: calcExpr, res: result });
+        if (calcHistoryStack.length > 20) calcHistoryStack.pop();
+        renderCalcHistory();
+
+        calcExpr = result.toString();
+      } else {
+        screenMain.textContent = 'Error';
+      }
+    } catch (e) {
+      screenMain.textContent = 'Error';
+    }
+  } else if (val === 'MC') {
+    calcMemoryVal = 0;
+    document.getElementById('calcBadgeMemory').style.display = 'none';
+  } else if (val === 'MR') {
+    calcExpr += calcMemoryVal.toString();
+    screenMain.textContent = calcExpr;
+  } else if (val === 'M+') {
+    const cur = parseFloat(screenMain.textContent) || 0;
+    calcMemoryVal += cur;
+    document.getElementById('calcBadgeMemory').style.display = 'inline-block';
+  } else if (val === 'M-') {
+    const cur = parseFloat(screenMain.textContent) || 0;
+    calcMemoryVal -= cur;
+    document.getElementById('calcBadgeMemory').style.display = 'inline-block';
+  } else if (['sin', 'cos', 'tan', 'log', 'ln', 'sqrt'].includes(val)) {
+    calcExpr += val === 'sqrt' ? '√(' : val + '(';
+    screenMain.textContent = calcExpr;
+  } else if (val === 'sq') {
+    calcExpr += '**2';
+    screenMain.textContent = calcExpr;
+  } else if (val === 'pow') {
+    calcExpr += '**';
+    screenMain.textContent = calcExpr;
+  } else if (val === 'pi') {
+    calcExpr += 'π';
+    screenMain.textContent = calcExpr;
+  } else if (val === 'inv') {
+    calcExpr = '1/(' + calcExpr + ')';
+    screenMain.textContent = calcExpr;
+  } else if (val === 'pm') {
+    if (calcExpr.startsWith('-')) calcExpr = calcExpr.substring(1);
+    else calcExpr = '-' + calcExpr;
+    screenMain.textContent = calcExpr || '0';
+  } else {
+    calcExpr += val;
+    screenMain.textContent = calcExpr;
+  }
+}
+
+function setCalcMode(mode) {
+  document.querySelectorAll('.calc-mode-btn').forEach(btn => btn.classList.remove('active'));
+  document.querySelectorAll('.calc-fitness-panel').forEach(p => p.style.display = 'none');
+
+  if (mode === 'standard') {
+    document.getElementById('btnModeSci').classList.add('active');
+  } else if (mode === 'onerm') {
+    document.getElementById('btnMode1RM').classList.add('active');
+    document.getElementById('fitnessPanel1RM').style.display = 'block';
+  } else if (mode === 'bmr') {
+    document.getElementById('btnModeBMR').classList.add('active');
+    document.getElementById('fitnessPanelBMR').style.display = 'block';
+  } else if (mode === 'macros') {
+    document.getElementById('btnModeMacros').classList.add('active');
+    document.getElementById('fitnessPanelMacros').style.display = 'block';
+  } else if (mode === 'thr') {
+    document.getElementById('btnModeTHR').classList.add('active');
+    document.getElementById('fitnessPanelTHR').style.display = 'block';
+  }
+}
+
+function calc1RM() {
+  const w = parseFloat(document.getElementById('onermWeight').value) || 0;
+  const r = parseFloat(document.getElementById('onermReps').value) || 0;
+  const resEl = document.getElementById('onermResult');
+  if (w <= 0 || r <= 0) {
+    resEl.innerHTML = 'Estimated 1RM: <strong>0.0 kg</strong>';
+    return;
+  }
+  // Epley Formula
+  const rm = w * (1 + r / 30);
+  resEl.innerHTML = `Estimated 1RM: <strong>${rm.toFixed(1)} kg</strong> (Epley Formula)`;
+}
+
+function calcBMR() {
+  const w = parseFloat(document.getElementById('bmrWeight').value) || 0;
+  const h = parseFloat(document.getElementById('bmrHeight').value) || 0;
+  const a = parseFloat(document.getElementById('bmrAge').value) || 0;
+  const gender = document.getElementById('bmrGender').value;
+  const act = parseFloat(document.getElementById('bmrActivity').value) || 1.25;
+  const resEl = document.getElementById('bmrResult');
+
+  if (w <= 0 || h <= 0 || a <= 0) {
+    resEl.innerHTML = 'BMR: <strong>0 kcal</strong> | TDEE: <strong>0 kcal</strong>';
+    return;
+  }
+
+  // Mifflin-St Jeor Formula
+  let bmr = (10 * w) + (6.25 * h) - (5 * a);
+  bmr += gender === 'male' ? 5 : -161;
+  const tdee = bmr * act;
+
+  resEl.innerHTML = `BMR: <strong>${Math.round(bmr)} kcal</strong> | TDEE: <strong>${Math.round(tdee)} kcal/day</strong>`;
+}
+
+function calcMacros() {
+  const cal = parseFloat(document.getElementById('macroTargetCal').value) || 0;
+  const goal = document.getElementById('macroGoal').value;
+  const resEl = document.getElementById('macroResult');
+  if (cal <= 0) {
+    resEl.innerHTML = 'P: <strong>0g</strong> | C: <strong>0g</strong> | F: <strong>0g</strong>';
+    return;
+  }
+
+  let pPct = 0.4, cPct = 0.3, fPct = 0.3;
+  if (goal === 'highprotein') { pPct = 0.45; cPct = 0.35; fPct = 0.20; }
+  else if (goal === 'lowcarb') { pPct = 0.20; cPct = 0.40; fPct = 0.40; }
+
+  const pGrams = Math.round((cal * pPct) / 4);
+  const cGrams = Math.round((cal * cPct) / 4);
+  const fGrams = Math.round((cal * fPct) / 9);
+
+  resEl.innerHTML = `P: <strong>${pGrams}g</strong> | C: <strong>${cGrams}g</strong> | F: <strong>${fGrams}g</strong>`;
+}
+
+function calcTHR() {
+  const age = parseFloat(document.getElementById('thrAge').value) || 0;
+  const rhr = parseFloat(document.getElementById('thrRest').value) || 60;
+  const resEl = document.getElementById('thrResult');
+  if (age <= 0) {
+    resEl.innerHTML = 'Fat Burn: <strong>0-0 BPM</strong> | Peak: <strong>0-0 BPM</strong>';
+    return;
+  }
+  const maxHR = 220 - age;
+  const hrr = maxHR - rhr;
+  const fatMin = Math.round((hrr * 0.5) + rhr);
+  const fatMax = Math.round((hrr * 0.7) + rhr);
+  const peakMin = Math.round((hrr * 0.85) + rhr);
+  const peakMax = Math.round((hrr * 0.95) + rhr);
+
+  resEl.innerHTML = `Fat Burn: <strong>${fatMin}-${fatMax} BPM</strong> | Peak: <strong>${peakMin}-${peakMax} BPM</strong>`;
+}
+
+function toggleCalcSound() {
+  calcAudioEnabled = !calcAudioEnabled;
+  document.getElementById('soundToggleBtn').textContent = calcAudioEnabled ? '🔊' : '🔇';
+  if (typeof triggerToast === 'function') triggerToast(calcAudioEnabled ? 'Sound feedback ON' : 'Sound feedback OFF');
+}
+
+function toggleCalcTheme() {
+  const calcBody = document.getElementById('calc3dBody');
+  if (!calcBody) return;
+  if (calcCurrentTheme === 'cyan') {
+    calcCurrentTheme = 'matrix';
+    calcBody.classList.remove('theme-amber');
+    calcBody.classList.add('theme-matrix');
+  } else if (calcCurrentTheme === 'matrix') {
+    calcCurrentTheme = 'amber';
+    calcBody.classList.remove('theme-matrix');
+    calcBody.classList.add('theme-amber');
+  } else {
+    calcCurrentTheme = 'cyan';
+    calcBody.classList.remove('theme-matrix', 'theme-amber');
+  }
+}
+
+function toggleHistoryDrawer() {
+  const drawer = document.getElementById('calcHistoryDrawer');
+  if (!drawer) return;
+  drawer.style.display = drawer.style.display === 'block' ? 'none' : 'block';
+}
+
+function renderCalcHistory() {
+  const container = document.getElementById('calcHistoryList');
+  if (!container) return;
+  if (calcHistoryStack.length === 0) {
+    container.innerHTML = '<div class="history-empty-text">No previous calculations yet</div>';
+    return;
+  }
+  container.innerHTML = calcHistoryStack.map(item => `
+    <div class="history-item-row" onclick="useCalcHistoryVal('${item.res}')">
+      <span class="history-item-eq">${item.eq} =</span>
+      <span class="history-item-res">${item.res}</span>
+    </div>
+  `).join('');
+}
+
+function useCalcHistoryVal(val) {
+  calcExpr += val;
+  document.getElementById('calcScreenMain').textContent = calcExpr;
+}
+
+function clearCalcHistory() {
+  calcHistoryStack = [];
+  renderCalcHistory();
+}
+
+// Hook into DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  init3DCalculator();
+});

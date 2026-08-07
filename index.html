@@ -72,6 +72,7 @@
       <li class="cyber-nav-item"><a href="#" class="active" data-view="dashboard" data-i18n="dash" onclick="switchView('dashboard'); return false;">📊 Dashboard</a></li>
       <li class="cyber-nav-item"><a href="#" data-view="workouts" data-i18n="work" onclick="switchView('workouts'); return false;">🏋️ Workouts</a></li>
       <li class="cyber-nav-item"><a href="#" data-view="tools" data-i18n="tool" onclick="switchView('tools'); return false;">🧰 Tools</a></li>
+      <li class="cyber-nav-item"><a href="#" data-view="calculator" data-i18n="calc" onclick="switchView('calculator'); return false;">🧮 3D Calculator</a></li>
       <li class="cyber-nav-item"><a href="#" data-view="progress" data-i18n="prog" onclick="switchView('progress'); return false;">📈 Progress</a></li>
       <li class="cyber-nav-item"><a href="#" data-view="premium" data-i18n="pro" onclick="switchView('premium'); return false;">👑 Premium</a></li>
       <li class="cyber-nav-item"><a href="#" data-view="profile" data-i18n="prof" onclick="switchView('profile'); return false;">👤 Profile</a></li>
@@ -216,6 +217,197 @@
 
       <div class="exercises-grid" id="exercisesGrid">
         <!-- Rendered via JS -->
+      </div>
+    </section>
+
+    <!-- ================= 3D ONLINE CALCULATOR VIEW ================= -->
+    <section class="view-section" id="view-calculator">
+      <div class="section-title-wrap" style="text-align: center;">
+        <span class="section-tag">Cyber Engine 3D</span>
+        <h1 class="section-h1">Interactive <span style="background: var(--grad-cyber); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">3D Online Calculator</span> 🧮</h1>
+        <p class="section-p">Tactile 3D keys, scientific calculations & fitness formulas with real-time parallax lighting.</p>
+      </div>
+
+      <!-- Mode Bar -->
+      <div class="calc-mode-bar">
+        <button class="calc-mode-btn active" id="btnModeSci" onclick="setCalcMode('standard')">⚡ Standard & Sci</button>
+        <button class="calc-mode-btn" id="btnMode1RM" onclick="setCalcMode('onerm')">🏋️ 1RM Max</button>
+        <button class="calc-mode-btn" id="btnModeBMR" onclick="setCalcMode('bmr')">🔥 BMR & TDEE</button>
+        <button class="calc-mode-btn" id="btnModeMacros" onclick="setCalcMode('macros')">🥗 Macro Splitter</button>
+        <button class="calc-mode-btn" id="btnModeTHR" onclick="setCalcMode('thr')">❤️ Heart Rate</button>
+      </div>
+
+      <!-- 3D Perspective Stage -->
+      <div class="stage-3d-wrapper" id="stage3d">
+        <div class="cyber-calc-3d-body" id="calc3dBody">
+          <!-- Chrome Top Header -->
+          <div class="calc-header-bar">
+            <div class="calc-brand">
+              <span class="calc-led"></span> CYBER-CALC <span>3D v5.0</span>
+            </div>
+            <div class="calc-top-controls">
+              <button class="calc-icon-btn" onclick="toggleCalcSound()" id="soundToggleBtn" title="Toggle Sound Feedback">🔊</button>
+              <button class="calc-icon-btn" onclick="toggleCalcTheme()" id="themeToggleBtn" title="Change Theme">🎨</button>
+              <button class="calc-icon-btn" onclick="toggleHistoryDrawer()" title="View History">📜</button>
+            </div>
+          </div>
+
+          <!-- OLED Display -->
+          <div class="calc-screen-oled">
+            <div class="calc-screen-sub" id="calcScreenSub">Ans = 0</div>
+            <div class="calc-screen-main" id="calcScreenMain">0</div>
+            <div class="calc-screen-badges">
+              <span class="badge-mode" id="calcBadgeMode">DEG</span>
+              <span class="badge-memory" id="calcBadgeMemory" style="display:none;">M</span>
+            </div>
+          </div>
+
+          <!-- Specialized Fitness Panels -->
+          <div class="calc-fitness-panel" id="fitnessPanel1RM" style="display:none;">
+            <div class="dual-inputs">
+              <div class="cyber-input-group">
+                <label>Weight Lifted (kg)</label>
+                <input type="number" id="onermWeight" placeholder="e.g. 100" oninput="calc1RM()">
+              </div>
+              <div class="cyber-input-group">
+                <label>Reps Completed</label>
+                <input type="number" id="onermReps" placeholder="e.g. 5" oninput="calc1RM()">
+              </div>
+            </div>
+            <div class="fitness-res-bar" id="onermResult">Estimated 1RM: <strong>0.0 kg</strong></div>
+          </div>
+
+          <div class="calc-fitness-panel" id="fitnessPanelBMR" style="display:none;">
+            <div class="dual-inputs">
+              <div class="cyber-input-group">
+                <label>Gender</label>
+                <select id="bmrGender" onchange="calcBMR()">
+                  <option value="male">Male ♂</option>
+                  <option value="female">Female ♀</option>
+                </select>
+              </div>
+              <div class="cyber-input-group">
+                <label>Activity Level</label>
+                <select id="bmrActivity" onchange="calcBMR()">
+                  <option value="1.2">Sedentary (Office job)</option>
+                  <option value="1.375">Light (1-3 days/wk)</option>
+                  <option value="1.55" selected>Moderate (3-5 days/wk)</option>
+                  <option value="1.725">Very Active (6-7 days/wk)</option>
+                  <option value="1.9">Extra Active (Heavy Labor)</option>
+                </select>
+              </div>
+            </div>
+            <div class="dual-inputs" style="margin-top: 10px;">
+              <div class="cyber-input-group">
+                <label>Weight (kg)</label>
+                <input type="number" id="bmrWeight" placeholder="70" oninput="calcBMR()">
+              </div>
+              <div class="cyber-input-group">
+                <label>Height (cm)</label>
+                <input type="number" id="bmrHeight" placeholder="175" oninput="calcBMR()">
+              </div>
+              <div class="cyber-input-group">
+                <label>Age</label>
+                <input type="number" id="bmrAge" placeholder="25" oninput="calcBMR()">
+              </div>
+            </div>
+            <div class="fitness-res-bar" id="bmrResult">BMR: <strong>0 kcal</strong> | TDEE: <strong>0 kcal</strong></div>
+          </div>
+
+          <div class="calc-fitness-panel" id="fitnessPanelMacros" style="display:none;">
+            <div class="dual-inputs">
+              <div class="cyber-input-group">
+                <label>Daily Calorie Target</label>
+                <input type="number" id="macroTargetCal" placeholder="2000" oninput="calcMacros()">
+              </div>
+              <div class="cyber-input-group">
+                <label>Strategy</label>
+                <select id="macroGoal" onchange="calcMacros()">
+                  <option value="balance">Balanced (40/30/30)</option>
+                  <option value="highprotein">High Protein (45/35/20)</option>
+                  <option value="lowcarb">Keto / Low Carb (20/40/40)</option>
+                </select>
+              </div>
+            </div>
+            <div class="fitness-res-bar" id="macroResult">P: <strong>0g</strong> | C: <strong>0g</strong> | F: <strong>0g</strong></div>
+          </div>
+
+          <div class="calc-fitness-panel" id="fitnessPanelTHR" style="display:none;">
+            <div class="dual-inputs">
+              <div class="cyber-input-group">
+                <label>Your Age</label>
+                <input type="number" id="thrAge" placeholder="25" oninput="calcTHR()">
+              </div>
+              <div class="cyber-input-group">
+                <label>Resting HR (BPM)</label>
+                <input type="number" id="thrRest" placeholder="60" oninput="calcTHR()">
+              </div>
+            </div>
+            <div class="fitness-res-bar" id="thrResult">Fat Burn: <strong>0-0 BPM</strong> | Peak: <strong>0-0 BPM</strong></div>
+          </div>
+
+          <!-- 3D Keypad Grid -->
+          <div class="calc-keypad-grid" id="calcKeypad">
+            <!-- Row 1: Memory & Clear -->
+            <button class="key-3d key-mem" onclick="calcAction('MC')">MC</button>
+            <button class="key-3d key-mem" onclick="calcAction('MR')">MR</button>
+            <button class="key-3d key-mem" onclick="calcAction('M+')">M+</button>
+            <button class="key-3d key-mem" onclick="calcAction('M-')">M-</button>
+            <button class="key-3d key-danger" onclick="calcAction('AC')">AC</button>
+            <button class="key-3d key-danger" onclick="calcAction('DEL')">⌫</button>
+
+            <!-- Row 2: Sci 1 -->
+            <button class="key-3d key-sci" onclick="calcAction('sin')">sin</button>
+            <button class="key-3d key-sci" onclick="calcAction('cos')">cos</button>
+            <button class="key-3d key-sci" onclick="calcAction('tan')">tan</button>
+            <button class="key-3d key-sci" onclick="calcAction('(')">(</button>
+            <button class="key-3d key-sci" onclick="calcAction(')')">)</button>
+            <button class="key-3d key-op" onclick="calcAction('/')">÷</button>
+
+            <!-- Row 3: Sci 2 -->
+            <button class="key-3d key-sci" onclick="calcAction('sqrt')">√</button>
+            <button class="key-3d key-sci" onclick="calcAction('sq')">x²</button>
+            <button class="key-3d key-sci" onclick="calcAction('pow')">x^y</button>
+            <button class="key-3d key-sci" onclick="calcAction('pi')">π</button>
+            <button class="key-3d key-sci" onclick="calcAction('%')">%</button>
+            <button class="key-3d key-op" onclick="calcAction('*')">×</button>
+
+            <!-- Row 4: Digits 7-9 -->
+            <button class="key-3d key-num" onclick="calcAction('7')">7</button>
+            <button class="key-3d key-num" onclick="calcAction('8')">8</button>
+            <button class="key-3d key-num" onclick="calcAction('9')">9</button>
+            <button class="key-3d key-op" onclick="calcAction('-')">-</button>
+            <button class="key-3d key-sci" onclick="calcAction('log')">log</button>
+            <button class="key-3d key-sci" onclick="calcAction('ln')">ln</button>
+
+            <!-- Row 5: Digits 4-6 -->
+            <button class="key-3d key-num" onclick="calcAction('4')">4</button>
+            <button class="key-3d key-num" onclick="calcAction('5')">5</button>
+            <button class="key-3d key-num" onclick="calcAction('6')">6</button>
+            <button class="key-3d key-op" onclick="calcAction('+')">+</button>
+            <button class="key-3d key-sci" onclick="calcAction('inv')">1/x</button>
+            <button class="key-3d key-sci" onclick="calcAction('pm')">±</button>
+
+            <!-- Row 6: Digits 1-3 & Equals -->
+            <button class="key-3d key-num" onclick="calcAction('1')">1</button>
+            <button class="key-3d key-num" onclick="calcAction('2')">2</button>
+            <button class="key-3d key-num" onclick="calcAction('3')">3</button>
+            <button class="key-3d key-num" onclick="calcAction('0')">0</button>
+            <button class="key-3d key-num" onclick="calcAction('.')">.</button>
+            <button class="key-3d key-equals" onclick="calcAction('=')">=</button>
+          </div>
+
+          <!-- History Drawer -->
+          <div class="calc-history-drawer" id="calcHistoryDrawer">
+            <div class="history-drawer-header">
+              <span>📜 Calculation History</span>
+              <button class="btn-sm-clear" onclick="clearCalcHistory()">Clear</button>
+            </div>
+            <div class="history-list-box" id="calcHistoryList">
+              <div class="history-empty-text">No previous calculations yet</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
