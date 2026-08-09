@@ -646,6 +646,17 @@
         <button class="btn-cyber-primary" onclick="saveProfile()">Save Profile</button>
       </div>
 
+      <!-- App Info & Legal Quick Links -->
+      <div class="bento-card" style="margin-bottom: 24px;">
+        <h3 style="margin-bottom: 16px;">📜 Legal & Support Information</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+          <button class="btn-cyber-outline" onclick="switchView('about')">ℹ️ About VictorFit</button>
+          <button class="btn-cyber-outline" onclick="switchView('terms')">📜 Terms & Conditions</button>
+          <button class="btn-cyber-outline" onclick="switchView('privacy')">🔒 Privacy Policy</button>
+          <button class="btn-cyber-outline" onclick="switchView('contact')">📩 Contact Support</button>
+        </div>
+      </div>
+
       <div class="bento-layout">
         <div class="bento-card bento-stat-card">
           <div class="stat-label-text">Total Workouts</div>
@@ -666,6 +677,281 @@
       </div>
     </section>
 
+    <!-- ================= ABOUT US VIEW ================= -->
+    <section class="view-section" id="view-about">
+      <div class="section-title-wrap">
+        <span class="section-tag">About VictorFit</span>
+        <h1 class="section-h1">The Ultimate Cyber Fitness Ecosystem ⚡</h1>
+        <p class="section-p">Empowering athletes and fitness enthusiasts with modern tracking technology.</p>
+      </div>
+
+      <div class="bento-card" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(56,189,248,0.05) 0%, rgba(192,132,252,0.05) 100%);">
+        <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+          <div style="font-size: 54px; width: 90px; height: 90px; border-radius: 20px; background: var(--grad-cyber); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow-glow-cyan);">⚡</div>
+          <div style="flex: 1;">
+            <h2 style="font-size: 26px; font-weight: 900; margin-bottom: 6px;">VictorFit Pro <span style="font-size: 14px; font-weight: 700; color: var(--neon-cyan); border: 1px solid var(--neon-cyan); padding: 2px 8px; border-radius: 12px; margin-left: 8px;">v5.0 Pro</span></h2>
+            <p style="color: var(--c-text-secondary); font-size: 15px; line-height: 1.6;">VictorFit Pro is a high-performance web application designed to help individuals monitor workouts, calculate precise caloric needs, track daily hydration, analyze fitness metrics, and reach peak athletic performance.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-layout" style="margin-bottom: 24px;">
+        <div class="bento-card">
+          <div style="font-size: 32px; margin-bottom: 12px;">🏋️</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Comprehensive Workout Tracking</h3>
+          <p style="color: var(--c-text-secondary); font-size: 14px; line-height: 1.5;">Access pre-loaded exercise routines across Strength, HIIT, Cardio, and Bodyweight categories with automatic calorie burn calculations.</p>
+        </div>
+        <div class="bento-card">
+          <div style="font-size: 32px; margin-bottom: 12px;">🧮</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Advanced 3D & Scientific Calculators</h3>
+          <p style="color: var(--c-text-secondary); font-size: 14px; line-height: 1.5;">Compute BMR, TDEE, BMI, Body Fat percentage, and macro breakdowns with precision algorithms tailored to your physiological profile.</p>
+        </div>
+        <div class="bento-card">
+          <div style="font-size: 32px; margin-bottom: 12px;">💧</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Daily Hydration & Goal Monitoring</h3>
+          <p style="color: var(--c-text-secondary); font-size: 14px; line-height: 1.5;">Monitor daily fluid intake and track your personal workout streak to stay consistent every single day.</p>
+        </div>
+        <div class="bento-card">
+          <div style="font-size: 32px; margin-bottom: 12px;">🔐</div>
+          <h3 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Private & Cloud Sync</h3>
+          <p style="color: var(--c-text-secondary); font-size: 14px; line-height: 1.5;">Your fitness records are saved seamlessly locally and synchronized securely via Firebase technology.</p>
+        </div>
+      </div>
+
+      <div class="bento-card" style="margin-bottom: 24px;">
+        <h3 style="margin-bottom: 16px; font-size: 20px; font-weight: 800;">👨‍💻 Developer & Official Contact Information</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+          <div class="contact-info-pill">
+            <div style="font-size: 12px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Developer Contact Email</div>
+            <a href="mailto:arasu9629hf@gmail.com" style="color: var(--neon-cyan); font-weight: 800; text-decoration: none; font-size: 16px;">arasu9629hf@gmail.com</a>
+          </div>
+          <div class="contact-info-pill">
+            <div style="font-size: 12px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">UPI Donation ID</div>
+            <div style="color: var(--neon-amber); font-weight: 800; font-size: 16px;">arasu9629hf@okhdfcbank</div>
+          </div>
+          <div class="contact-info-pill">
+            <div style="font-size: 12px; color: var(--c-text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 4px;">Project Homepage</div>
+            <a href="https://github.com/Victorezhil310/VictorFit" target="_blank" rel="noopener" style="color: var(--neon-purple); font-weight: 800; text-decoration: none; font-size: 16px;">github.com/Victorezhil310/VictorFit</a>
+          </div>
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+          <button class="btn-cyber-primary" onclick="switchView('contact')" style="display: inline-block; width: auto; padding: 12px 32px;">📩 Get in Touch with Us</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TERMS & CONDITIONS VIEW ================= -->
+    <section class="view-section" id="view-terms">
+      <div class="section-title-wrap">
+        <span class="section-tag">Legal Documentation</span>
+        <h1 class="section-h1">Terms & Conditions 📜</h1>
+        <p class="section-p">Last Updated: August 9, 2026</p>
+      </div>
+
+      <div class="legal-content-box">
+        <div class="legal-section">
+          <h2>1. Agreement to Terms</h2>
+          <p>By accessing or using VictorFit Pro ("Application", "Service"), you agree to be bound by these Terms & Conditions. If you do not agree to all terms, please refrain from using the application.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>2. Health & Fitness Medical Disclaimer</h2>
+          <p>VictorFit Pro is an informational fitness tracking application and calculator. <strong>The content, calculations, and exercise logs provided by VictorFit Pro do not constitute professional medical advice, diagnosis, or treatment.</strong></p>
+          <p>Always consult with a qualified physician or healthcare provider before beginning any exercise routine, diet plan, or physical activity program. You assume full responsibility for your health and physical safety when performing workouts suggested or logged within the application.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>3. User Account & Data Accuracy</h2>
+          <p>You are responsible for maintaining the accuracy of data entered into the application (such as weight, age, height, and activity levels). You agree not to use the application for unlawful or fraudulent purposes.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>4. Premium Features & Payments</h2>
+          <p>Certain advanced features or voluntary developer donations may utilize direct UPI payment protocols (`arasu9629hf@okhdfcbank`). All voluntary contributions support ongoing application maintenance, server hosting, and feature development.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>5. Intellectual Property</h2>
+          <p>All source code, designs, UI aesthetics, logos, graphics, and proprietary software logic powering VictorFit Pro are protected by copyright and intellectual property laws. Unauthorized duplication or redistribution of the platform code is strictly prohibited.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>6. Limitation of Liability</h2>
+          <p>To the maximum extent permitted by applicable law, VictorFit Pro and its creator shall not be liable for any indirect, incidental, consequential, or punitive damages resulting from your use or inability to use the Service.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>7. Contact Information</h2>
+          <p>If you have any questions or inquiries regarding these Terms & Conditions, please contact us directly at <a href="mailto:arasu9629hf@gmail.com" class="legal-email-link">arasu9629hf@gmail.com</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= PRIVACY POLICY VIEW ================= -->
+    <section class="view-section" id="view-privacy">
+      <div class="section-title-wrap">
+        <span class="section-tag">Privacy & Security</span>
+        <h1 class="section-h1">Privacy Policy 🔒</h1>
+        <p class="section-p">Last Updated: August 9, 2026</p>
+      </div>
+
+      <div class="legal-content-box">
+        <div class="legal-section">
+          <h2>1. Introduction</h2>
+          <p>Your privacy is important to us. This Privacy Policy outlines how VictorFit Pro collects, uses, and safeguards information when you use our application.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>2. Information We Collect</h2>
+          <p>VictorFit Pro prioritizes privacy by minimizing data collection:</p>
+          <ul style="margin-left: 20px; color: var(--c-text-secondary); line-height: 1.8;">
+            <li><strong>Local User Profile Data:</strong> Name, age, birthday, height, weight, daily water intake goals, and workout history stored directly on your browser via LocalStorage.</li>
+            <li><strong>Sync Data:</strong> Essential profile preferences and metrics synchronized using Firebase Cloud Services for multi-device availability.</li>
+            <li><strong>Technical Diagnostics:</strong> Standard technical information (browser type, device viewport, user agent) to deliver responsive performance.</li>
+          </ul>
+        </div>
+
+        <div class="legal-section">
+          <h2>3. Cookies & Advertising (Google AdSense & Monetag)</h2>
+          <p>VictorFit Pro uses third-party services such as Google AdSense and Monetag to serve advertisements. These services may use cookies and web beacons to collect non-personally identifiable technical information to display relevant ads based on browsing history.</p>
+          <p>You can manage cookie preferences directly through your web browser settings at any time.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>4. Data Storage & Protection</h2>
+          <p>We enforce modern encryption standards for data transmitted to cloud services. We do not sell, rent, or trade your personal information to third parties.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>5. Your Data Rights & Account Deletion</h2>
+          <p>You have the right to inspect, export, or permanently erase your saved fitness data at any time. To request data deletion or account removal, please email <a href="mailto:arasu9629hf@gmail.com" class="legal-email-link">arasu9629hf@gmail.com</a>.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>6. Updates to Privacy Policy</h2>
+          <p>We may update our Privacy Policy periodically to reflect technological or regulatory changes. Updated policies will be posted on this page with an updated revision date.</p>
+        </div>
+
+        <div class="legal-section">
+          <h2>7. Privacy Contact</h2>
+          <p>For any questions or privacy concerns, please contact our support team at <a href="mailto:arasu9629hf@gmail.com" class="legal-email-link">arasu9629hf@gmail.com</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CONTACT US VIEW ================= -->
+    <section class="view-section" id="view-contact">
+      <div class="section-title-wrap">
+        <span class="section-tag">Get in Touch</span>
+        <h1 class="section-h1">Contact Support & Feedback 📩</h1>
+        <p class="section-p">We are here to assist you with any questions, bug reports, or feature suggestions.</p>
+      </div>
+
+      <div class="contact-card-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 28px;">
+        <!-- Email Support Card -->
+        <div class="bento-card" style="align-items: flex-start;">
+          <div style="font-size: 36px; margin-bottom: 12px;">📧</div>
+          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 6px;">Direct Email Support</h3>
+          <p style="color: var(--c-text-secondary); font-size: 14px; margin-bottom: 16px; line-height: 1.5;">Send us your questions, feedback, or business inquiries directly.</p>
+          <div style="background: rgba(255,255,255,0.04); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--bg-card-border); width: 100%; margin-bottom: 14px;">
+            <span style="font-family: var(--font-mono); color: var(--neon-cyan); font-weight: 700; font-size: 15px; word-break: break-all;" id="contactEmailAddress">arasu9629hf@gmail.com</span>
+          </div>
+          <div style="display: flex; gap: 10px; width: 100%;">
+            <a href="mailto:arasu9629hf@gmail.com" class="btn-cyber-primary" style="text-align:center; text-decoration:none; flex:1; padding: 10px 16px;">✉️ Mail Us</a>
+            <button class="btn-cyber-outline" onclick="copyContactEmail()" style="flex:1;">📋 Copy Email</button>
+          </div>
+        </div>
+
+        <!-- Development & Support Card -->
+        <div class="bento-card" style="align-items: flex-start;">
+          <div style="font-size: 36px; margin-bottom: 12px;">❤️</div>
+          <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 6px;">Support VictorFit</h3>
+          <p style="color: var(--c-text-secondary); font-size: 14px; margin-bottom: 16px; line-height: 1.5;">VictorFit is built with passion. Support ongoing server costs and feature updates via UPI.</p>
+          <div style="background: rgba(255,255,255,0.04); padding: 12px 16px; border-radius: var(--radius-sm); border: 1px solid var(--bg-card-border); width: 100%; margin-bottom: 14px;">
+            <div style="font-size: 11px; color: var(--c-text-muted); text-transform: uppercase; font-weight: 700;">Official UPI ID</div>
+            <div style="font-family: var(--font-mono); color: var(--neon-amber); font-weight: 800; font-size: 15px;">arasu9629hf@okhdfcbank</div>
+          </div>
+          <button class="btn-cyber-primary" onclick="openUpiModal('Custom', 'Support Development')" style="width: 100%;">💳 Donate via UPI</button>
+        </div>
+      </div>
+
+      <!-- Live Message Form Card -->
+      <div class="bento-card" style="margin-bottom: 24px;">
+        <h3 style="margin-bottom: 8px; font-size: 22px; font-weight: 900;">💬 Send Us a Direct Message</h3>
+        <p style="color: var(--c-text-secondary); font-size: 14px; margin-bottom: 20px;">Fill out the message form below and our support team will respond within 24 hours.</p>
+
+        <form onsubmit="submitContactForm(event)" style="display: flex; flex-direction: column; gap: 16px; width: 100%;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+            <div class="cyber-input-group">
+              <label>Your Name *</label>
+              <input type="text" id="contactName" required placeholder="John Doe">
+            </div>
+            <div class="cyber-input-group">
+              <label>Your Email Address *</label>
+              <input type="email" id="contactEmail" required placeholder="john@example.com">
+            </div>
+          </div>
+
+          <div class="cyber-input-group">
+            <label>Subject</label>
+            <input type="text" id="contactSubject" placeholder="e.g. Feature Suggestion / Bug Report / General Inquiry">
+          </div>
+
+          <div class="cyber-input-group">
+            <label>Message *</label>
+            <textarea id="contactMessage" required rows="5" placeholder="Write your message details here..." style="width: 100%; padding: 14px; background: rgba(0,0,0,0.5); border: 1px solid var(--bg-card-border); color: white; border-radius: var(--radius-sm); font-family: var(--font-main); resize: vertical;"></textarea>
+          </div>
+
+          <button type="submit" class="btn-cyber-primary" style="align-self: flex-start; padding: 14px 36px; margin-top: 8px;">🚀 Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ================= CYBER FOOTER ================= -->
+    <footer class="cyber-footer">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-logo" onclick="switchView('dashboard'); return false;" style="cursor: pointer;">
+            <div class="brand-badge">⚡</div>
+            <div class="brand-name">Victor<span>Fit</span></div>
+          </div>
+          <p class="footer-tagline">Cyber Fitness & Daily Gym Tracker. Powering your athletic transformation with real-time metrics.</p>
+        </div>
+
+        <div class="footer-links-group">
+          <div class="footer-col">
+            <h4 class="footer-heading">Navigation</h4>
+            <a href="#" onclick="switchView('dashboard'); return false;">📊 Dashboard</a>
+            <a href="#" onclick="switchView('workouts'); return false;">🏋️ Workouts</a>
+            <a href="#" onclick="switchView('tools'); return false;">🧰 Fitness Tools</a>
+            <a href="#" onclick="switchView('calculator'); return false;">🧮 3D Calculator</a>
+            <a href="#" onclick="switchView('progress'); return false;">📈 Progress Charts</a>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-heading">Information & Legal</h4>
+            <a href="#" onclick="switchView('about'); return false;">ℹ️ About Us</a>
+            <a href="#" onclick="switchView('terms'); return false;">📜 Terms & Conditions</a>
+            <a href="#" onclick="switchView('privacy'); return false;">🔒 Privacy Policy</a>
+            <a href="#" onclick="switchView('contact'); return false;">📩 Contact Us</a>
+          </div>
+
+          <div class="footer-col">
+            <h4 class="footer-heading">Support</h4>
+            <div style="font-size: 13px; color: var(--c-text-secondary); margin-bottom: 8px;">Official Contact:</div>
+            <a href="mailto:arasu9629hf@gmail.com" class="footer-email-link">arasu9629hf@gmail.com</a>
+            <div style="margin-top: 12px;">
+              <button class="btn-sm-donate" onclick="openUpiModal('Custom', 'Support Development')">❤️ Donate via UPI</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 VictorFit Pro. All rights reserved.</p>
+        <p style="color: var(--c-text-muted); font-size: 12px;">Built for Peak Performance | Designed with Cyber-Glass UI</p>
+      </div>
+    </footer>
   </main>
 
   <!-- Mobile Bottom Navigation Dock -->

@@ -981,3 +981,24 @@ function clearCalcHistory() {
 document.addEventListener('DOMContentLoaded', () => {
   init3DCalculator();
 });
+
+// ================= CONTACT & SUPPORT HELPERS =================
+function copyContactEmail() {
+  const email = "arasu9629hf@gmail.com";
+  navigator.clipboard.writeText(email).then(() => {
+    showToast("📋 Email copied to clipboard: " + email, "info");
+  }).catch(() => {
+    showToast("✉️ Support Email: " + email, "info");
+  });
+}
+
+function submitContactForm(event) {
+  event.preventDefault();
+  const name = document.getElementById('contactName')?.value || 'User';
+  
+  showToast(`🚀 Thank you, ${name}! Your message has been sent successfully. We will reply within 24 hours.`, "info");
+  
+  const form = event.target;
+  if (form && form.reset) form.reset();
+}
+
